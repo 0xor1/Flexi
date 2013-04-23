@@ -49,36 +49,35 @@
             }
 
             return this;
-
         },
 
 
         off: function(obj, type, fn){
 
-            try{
-                var queue = obj._eventContractQueues[type]
-                    , contract = this._eventContracts[EventContract.generateKey(obj, type, fn)]
-                    , idx = queue.indexOf(contract)
-                    ;
-            }catch(ex){
-                throw new Error("Error attempting to remove event contract of type: " + type + ".");
-            }
+            if(!this._eventContracts){return this;}
 
-            if(idx !== -1){
-                if(queue.isDispatching){
-                    queue.updated = true;
-                    queue.removedIndexes.push(idx);
-                }
-                queue.splice(idx, 1);
-                fn[rs.fnUsageCount]--;
-                if(fn[rs.fnUsageCount] === 0){
-                    freeFnId(fn);
-                }
-                delete this._eventContracts[contract.key];
+            var contract = this._eventContracts[EventContract.generateKey(obj, type, fn)]
+                , queue
+                , idx
+                ;
+
+            if(!contract){return this;}
+
+            queue = obj._eventContractQueues[type];
+            idx = queue.indexOf(contract);
+
+            if(queue.isDispatching){
+                queue.updated = true;
+                queue.removedIndexes.push(idx);
             }
+            queue.splice(idx, 1);
+            fn[rs.fnUsageCount]--;
+            if(fn[rs.fnUsageCount] === 0){
+                freeFnId(fn);
+            }
+            delete this._eventContracts[contract.key];
 
             return this;
-
         },
 
 
@@ -121,7 +120,6 @@
             }
 
             return this;
-
         },
 
 
@@ -200,7 +198,6 @@
         };
 
         return EventContract;
-
     })();
 
 
