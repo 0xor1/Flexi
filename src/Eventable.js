@@ -18,8 +18,8 @@
     ns.Eventable = function(){
         this._id = getAnUnusedObjId();
         //following properties are only created when they are first required to save on unnecessary memory usage
-        //this._contracts
-        //this._contractQueues
+        //this._eventContracts
+        //this._eventContractQueues
     };
 
 
@@ -33,9 +33,9 @@
 
         on: function(obj, type, fn){
 
-            var queues = obj._contractQueues = obj._contractQueues || {}
+            var queues = obj._eventContractQueues = obj._eventContractQueues || {}
                 , queue = queues[type] = queues[type] || []
-                , contracts = this._contracts = this._contracts || {}
+                , contracts = this._eventContracts = this._eventContracts || {}
                 , contract = new EventContract(this, obj, type, fn)
                 ;
 
@@ -56,8 +56,8 @@
         off: function(obj, type, fn){
 
             try{
-                var queue = obj._contractQueues[type]
-                    , contract = this._contracts[EventContract.generateKey(obj, type, fn)]
+                var queue = obj._eventContractQueues[type]
+                    , contract = this._eventContracts[EventContract.generateKey(obj, type, fn)]
                     , idx = queue.indexOf(contract)
                     ;
             }catch(ex){
@@ -74,7 +74,7 @@
                 if(fn[rs.fnUsageCount] === 0){
                     freeFnId(fn);
                 }
-                delete this._contracts[contract.key];
+                delete this._eventContracts[contract.key];
             }
 
             return this;
@@ -84,11 +84,11 @@
 
         fire: function(event){
 
-            if(typeof this._contractQueues === 'undefined'){
+            if(typeof this._eventContractQueues === 'undefined'){
                 return;
             }
 
-            var queue = this._contractQueues[event.type];
+            var queue = this._eventContractQueues[event.type];
 
             if(typeof queue !== 'undefined'){
 
@@ -126,9 +126,9 @@
 
 
         dispose: function(){
-            
-            var contracts = this._contracts;
-            
+
+            var contracts = this._eventContracts;
+
             if(contracts){
                 for(var key in contracts){
                     if(contracts.hasOwnProperty(key)){
@@ -137,7 +137,7 @@
                 }
             }
 
-            var queues = this._contractQueues;
+            var queues = this._eventContractQueues;
 
             if(queues){
                 for(var i in queues){
