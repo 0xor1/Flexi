@@ -39,7 +39,7 @@
                 , contract = new EventContract(this, obj, type, fn)
                 ;
 
-            if(contracts[contract.key] === 'undefined'){
+            if(typeof contracts[contract.key] === 'undefined'){
                 queue.push(contract);
                 (typeof fn[rs.fnUsageCount] === 'number') ? fn[rs.fnUsageCount]++ : fn[rs.fnUsageCount] = 1;
                 contracts[contract.key] = contract;
