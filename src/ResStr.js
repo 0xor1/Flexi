@@ -19,6 +19,4 @@
     rs.fnId = rs.prfx + rs.id;
     rs.fnUsageCount = rs.prfx + rs.usageCount;
 
-    rs.d = 'div';
-
 })(NS);

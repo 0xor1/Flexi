@@ -151,6 +151,9 @@
             freedObjIds.push(this._id);
             for(i in this){
                 if(this.hasOwnProperty(i)){
+                    if(i === '_dom' && this[i].parentNode){ //special case for Dom objects
+                        this[i].parentNode.removeChild(this[i]);
+                    }
                     delete this[i];
                 }
             }
