@@ -6,7 +6,8 @@
 (function(NS){
 
     var ns = window[NS] = window[NS] || {}
-        , rs = ns.rs;
+        , rs = ns.rs
+        ;
 
     ns.Dom = function(domInfo){
 
@@ -14,30 +15,32 @@
 
         this._dom = htmlGenerator(domInfo);
 
+        this._children = [];
+
     };
 
 
     ns.Dom.prototype = Object.create(ns.Eventable.prototype);
 
 
-    ns.Dom.prototype.addChild = function(child){
+    ns.Dom.prototype.addChild = function(){
         throw new Error("Dom object does not implement addChild method");
     }
 
 
-    ns.Dom.prototype.removeChild = function(child){
+    ns.Dom.prototype.removeChild = function(){
         throw new Error("Dom object does not implement removeChild method");
     }
 
 
     function htmlGenerator(domInfo){
         if(!domInfo){return null;}
-        for(var i = 0, l = dom.length; i < l; i++){
-            var elInfo = domInfo[i];
-            var dom = document.createElement(elInfo.tag);
-            style(dom, elInfo.style);
-            if(elInfo.children && elInfo.children.length > 0){
-                dom.addChild(ns.Dom.htmlGenerator(elInfo.children));
+        var dom = document.createElement(domInfo.tag);
+        style(dom, domInfo.style);
+        dom.className = domInfo.class;
+        if(domInfo.children && domInfo.children.length > 0){
+            for(var i = 0, l = domInfo.children.length; i < l; i++){
+                dom.appendChild(ns.Dom.htmlGenerator(domInfo.children[i]));
             }
         }
         return dom;
@@ -51,5 +54,6 @@
             }
         }
     }
+
 
 })(NS);
