@@ -13,9 +13,7 @@
 
         ns.Eventable.call(this);
 
-        this._dom = htmlGenerator(domInfo);
-
-        this._children = [];
+        this.dom = domGenerator(domInfo);
 
     };
 
@@ -33,14 +31,15 @@
     }
 
 
-    function htmlGenerator(domInfo){
+    function domGenerator(domInfo){
         if(!domInfo){return null;}
         var dom = document.createElement(domInfo.tag);
         style(dom, domInfo.style);
         dom.className = domInfo.class;
+        dom.id = domInfo.id;
         if(domInfo.children && domInfo.children.length > 0){
             for(var i = 0, l = domInfo.children.length; i < l; i++){
-                dom.appendChild(ns.Dom.htmlGenerator(domInfo.children[i]));
+                dom.appendChild(domGenerator(domInfo.children[i]));
             }
         }
         return dom;
