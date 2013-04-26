@@ -31,6 +31,7 @@
         document.body.appendChild(this.dom);
     };
 
+
     ns.Layout.coreStyle = {
         background: '#333',
         splitterWidth: '4px',
@@ -38,6 +39,8 @@
         headerHeight: '20px'
     };
 
+
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
+
 
 })(NS);
