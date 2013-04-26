@@ -8,29 +8,17 @@
     /**
      * FlexiRegion
      *  SplittableRegion
+     *    (SplitRegion)
      *      TabbableRegion
      *          ContentRegion
      */
     var ns = window[NS] = window[NS] || {}
         , rs = ns.rs
-        , domInfo = {
-            tag: 'div',
-            class: NS + "-region",
-            style: {
-                position: 'relative',
-                height: '100%',
-                width: '100%',
-                margin: 0,
-                padding: 0,
-                border: 0,
-                overflow: 'hidden',
-                display: 'block'
-            }
-        }
+        , domInfo = { tag: 'div', class: rs.splittableRegion, style: { position: 'relative', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden', display: 'block' } }
         ;
 
 
-    ns.Region = function(child){
+    ns.SplittableRegion = function(child){
 
         ns.Dom.call(this, domInfo);
 
@@ -38,10 +26,10 @@
     };
 
 
-    ns.Region.prototype = Object.create(ns.Dom.prototype);
+    ns.SplittableRegion.prototype = Object.create(ns.Dom.prototype);
 
 
-    ns.Region.prototype.addChild = function(child, idx, orientation){
+    ns.SplittableRegion.prototype.split = function(child, idx, orientation){
         if(!this.child){
             this.child = child;
             if(child.parent){
@@ -62,7 +50,7 @@
     };
 
 
-    ns.Region.prototype.removeChild = function(child){
+    ns.SplittableRegion.prototype.removeChild = function(child){
     };
 
 
