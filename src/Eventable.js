@@ -148,11 +148,6 @@
                     }
                 }
             }
-            if(this instanceof ns.Dom){
-                if(this.parent){
-                    this.parent.removeChild(this);
-                }
-            }
             freedObjIds.push(this._id);
             for(i in this){
                 if(this.hasOwnProperty(i)){
