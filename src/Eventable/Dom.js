@@ -13,7 +13,7 @@
 
         ns.Eventable.call(this);
 
-        this.dom = domGenerator(domInfo);
+        this.dom = ns.Dom.domGenerator(domInfo);
 
     };
 
@@ -31,10 +31,10 @@
     }
 
 
-    function domGenerator(domInfo){
+    ns.Dom.domGenerator = function(domInfo){
         if(!domInfo){return null;}
         var dom = document.createElement(domInfo.tag);
-        style(dom, domInfo.style);
+        ns.Dom.style(dom, domInfo.style);
         dom.className = domInfo.class;
         dom.id = domInfo.id;
         if(domInfo.children && domInfo.children.length > 0){
@@ -46,7 +46,7 @@
     }
 
 
-    function style(dom, style){
+    ns.Dom.style = function(dom, style){
         for(var i in style){
             if(dom.style.hasOwnProperty(i)){
                 dom.style[i] = style[i];
