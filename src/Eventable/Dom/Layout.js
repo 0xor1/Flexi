@@ -51,7 +51,13 @@
 
 
     ns.Layout.coreStyle = {
-        background: '#333',
+        colors: {
+            splitter: new Color(48,48,48),
+            header: new Color(0,0,0),
+            tabBar: new Color(0,0,0),
+            tab: new Color(70,70,70),
+            selectedTab: new Color(150, 70, 0)
+        },
         splitterWidth: '4',
         tabHeight: '20px',
         headerHeight: '20px'
@@ -59,6 +65,19 @@
 
 
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
+
+
+    function Color(r, g, b){
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+
+    Color.prototype = {
+        toStyle: function(){
+            return "rgb("+this.r+", "+this.g+", "+this.b")";
+        }
+    };
 
 
 })(NS);
