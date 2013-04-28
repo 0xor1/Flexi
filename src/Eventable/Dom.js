@@ -31,6 +31,11 @@
     }
 
 
+    ns.Dom.prototype.dispose = function(){
+        this.dom.parentNode.removeChild(this.dom);
+        ns.Eventable.prototype.dispose.call(this);
+    };
+
     ns.Dom.domGenerator = function(domInfo){
         if(!domInfo){return null;}
         var dom = document.createElement(domInfo.tag);
