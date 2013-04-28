@@ -34,7 +34,8 @@
 
     //SplittableRegion
     rs.splittableRegion = prfx('splittable-region');
-    rs.splitRegion = prfx('split-region');
+    rs.verticalSplitRegion = prfx('vertical-split-region');
+    rs.horizontalSplitRegion = prfx('horizontal-split-region');
     rs.splitChunk = prfx('split-chunk');
     rs.splitter = prfx('splitter');
 
