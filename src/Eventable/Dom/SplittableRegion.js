@@ -15,27 +15,13 @@
     var ns = window[NS] = window[NS] || {}
         , rs = ns.rs
         , domInfo = { tag: 'div', class: rs.splittableRegion, style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} }
-        , sWidth = ns.Layout.coreStyle.splitterWidth / 2
-        , verticalDomInfo = { tag: 'div', class: rs.verticalSplitRegion, style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
-            children: [
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', width: 'calc(50% - ' + sWidth + 'px)', height: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitter, style: { position: 'relative', width: (sWidth * 2) + 'px)', height: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', width: 'calc(50% - ' + sWidth + 'px)', height: '100%', overflow: 'hidden'} }
-            ]
-        }
-        , horizontalDomInfo = { tag: 'div', class: rs.horizontalSplitRegion, style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0 },
-            children: [
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', height: 'calc(50% - ' + sWidth + 'px)', width: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitter, style: { position: 'relative', height: (sWidth * 2) + 'px)', width: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', height: 'calc(50% - ' + sWidth + 'px)', width: '100%', overflow: 'hidden'} }
-            ]
-        };
+        ;
 
     ns.SplittableRegion = function(child){
 
         ns.Dom.call(this, domInfo);
 
-        if(child instanceof ns.SplittableRegion || child instanceof ns.TabbableRegion){
+        if(child instanceof ns.SplitRegion || child instanceof ns.TabbableRegion){
             this.addChild(child);
         }else{
             throw new Error("Attempting to add a child to SplittableRegion which is not a SplitRegion or TabbableRegion");

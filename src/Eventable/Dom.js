@@ -40,11 +40,15 @@
         if(!domInfo){return null;}
         var dom = document.createElement(domInfo.tag);
         ns.Dom.style(dom, domInfo.style);
-        dom.className = domInfo.class;
-        dom.id = domInfo.id;
+        if(domInfo.class){
+            dom.className = domInfo.class;
+        }
+        if(domInfo.id){
+            dom.id = domInfo.id;
+        }
         if(domInfo.children && domInfo.children.length > 0){
             for(var i = 0, l = domInfo.children.length; i < l; i++){
-                dom.appendChild(domGenerator(domInfo.children[i]));
+                dom.appendChild(ns.Dom.domGenerator(domInfo.children[i]));
             }
         }
         return dom;
@@ -53,7 +57,7 @@
 
     ns.Dom.style = function(dom, style){
         for(var i in style){
-            if(dom.style.hasOwnProperty(i)){
+            if(style.hasOwnProperty(i)){
                 dom.style[i] = style[i];
             }
         }
