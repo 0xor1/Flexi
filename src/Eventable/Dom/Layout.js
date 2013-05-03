@@ -3,7 +3,7 @@
  * Date: 25/04/13
  */
 
-(function(NS){
+(function(ns){
 
 
     var ns = window[NS] = window[NS] || {}
@@ -47,7 +47,7 @@
             return "rgb("+this.r+", "+this.g+", "+this.b+")";
         }
     };
-    
+
 
     ns.Layout.coreStyle = {
         colors: {
