@@ -3,7 +3,7 @@
  * Date: 27/04/13
  */
 
-(function(NS){
+/*(function(NS){
 
     var ns = window[NS] = window[NS] || {}
         , rs = ns.rs
@@ -18,9 +18,9 @@
 
         ns.Dom.call(this, domInfo);
 
-        this.
+
     };
 
     ns.TabbableRegion.prototype = Object.create(ns.Dom.prototype);
 
-})(NS);
+})(NS);*/

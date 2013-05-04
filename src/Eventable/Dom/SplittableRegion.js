@@ -3,15 +3,8 @@
  * Date: 24/04/13
  */
 
-(function(NS){
+/*(function(NS){
 
-    /**
-     * FlexiRegion
-     *  SplittableRegion
-     *    (SplitRegion)
-     *      TabbableRegion
-     *          ContentRegion
-     */
     var ns = window[NS] = window[NS] || {}
         , rs = ns.rs
         , domInfo = { tag: 'div', class: rs.splittableRegion, style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} }
@@ -84,4 +77,4 @@
     };
 
 
-})(NS);
+})(NS);*/

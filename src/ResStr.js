@@ -18,10 +18,6 @@
     rs.prfx = rs._ + NS + rs._;
     rs.classPrfx = NS.toLowerCase() + '-';
 
-    //Eventable
-    rs.fnId = rs.prfx + 'id';
-    rs.fnUsageCount = rs.prfx + 'usageCount';
-
     //Layout
     rs.layoutRoot = prfx('layout-root');
     rs.rootRegion = prfx('region-root');

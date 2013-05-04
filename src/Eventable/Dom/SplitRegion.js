@@ -3,7 +3,7 @@
  * Date: 29/04/13
  */
 
-(function(NS){
+/*(function(NS){
 
     var ns = window[NS] = window[NS] || {}
         , rs = ns.rs
@@ -48,4 +48,4 @@
 
     };
 
-})(NS);
+})(NS);*/

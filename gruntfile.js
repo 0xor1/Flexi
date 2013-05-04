@@ -7,7 +7,8 @@ module.exports = function(grunt){
             clean: [
                 'build/*',
                 'doc/*',
-                'test/unit/build/*'
+                'test/unit/build/*',
+                'test/manual/index.htm'
             ],
 
             concat: {
@@ -22,7 +23,7 @@ module.exports = function(grunt){
                             '(function(NS){\n\n',
                         footer: '\n\n})("<%= pkg.name %>");'
                     },
-                    src: ['lib/**/*.js','src/**/*.js'],
+                    src: ['src/**/*.js'],
                     dest: 'build/<%= pkg.name %>.<%= pkg.version %>.dev.js'
                 },
 
@@ -32,7 +33,7 @@ module.exports = function(grunt){
                         banner: '(function(NS){\n\n',
                         footer: '\n\n})("<%= pkg.name %>");'
                     },
-                    src: ['test/unit/*.js'],
+                    src: ['test/unit/src/**/*.js'],
                     dest: 'test/unit/build/<%= pkg.name %>.<%= pkg.version %>.test.js'
                 },
                 testDevHtml: {
@@ -78,6 +79,37 @@ module.exports = function(grunt){
                     },
                     src: [],
                     dest: 'test/unit/build/index.min.htm'
+                },
+                manualTestHtml: {
+                    options: {
+                        stripBanners: true,
+                        banner: '<!DOCTYPE html>\n'+
+                            '<html>\n'+
+                            '<head>\n'+
+                            "<meta charset='utf-8'>\n"+
+                            '<title><%= pkg.name %> v<%= pkg.version%> - sandbox</title>\n'+
+                            '<script src="App.js"></script>\n'+
+                            '</head>\n'+
+                            '<body>\n'+
+                            '</body>\n'+
+                            '</html>'
+                    },
+                    src: [],
+                    dest: 'test/manual/build/index.htm'
+                },
+                manualTestApp: {
+                    options: {
+                        stripBanners: true,
+                        banner: '/*\n'+
+                            '\tLib:\t\t<%= pkg.name %>\n'+
+                            '\tVersion:\t<%= pkg.version %>\n'+
+                            '\tBuild Date:\t<%= grunt.template.today("yyyy-mm-dd") %>\n'+
+                            '\tAuthor:\t\t<%= pkg.author %>\n*/\n\n'+
+                            '(function(NS){\n\n',
+                        footer: '\n\n})("<%= pkg.name %>");'
+                    },
+                    src: ['src/**/*.js','test/manual/manualTestApp.js'],
+                    dest: 'test/manual/build/App.js'
                 }
             },
 

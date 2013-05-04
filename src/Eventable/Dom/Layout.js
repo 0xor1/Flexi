@@ -3,21 +3,46 @@
  * Date: 25/04/13
  */
 
-(function(ns){
+(function(NS){
 
 
     var ns = window[NS] = window[NS] || {}
-        , rs = ns.rs
-        , OnlyOneLayoutRootPerPage
+        , rs = {}
+        , layout
         ;
+
 
     ns.Layout = function(layoutConfig){
 
-        if(OnlyOneLayoutRootPerPage){
-            return OnlyOneLayoutRootPerPage;
+        if(layout){
+            return layout;
         }
 
-        ns.Dom.call(this, domInfo);
+        var sWidth = ns.Layout.style.splitterWidth + 'px'
+            , htmlAndBodyStyle = {
+                position: 'absolute',
+                overflow: 'hidden',
+                margin: 0,
+                border: 0,
+                padding:0,
+                width: '100%',
+                height: '100%',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0
+            }
+            ;
+
+        ns.Dom.call(this,{
+            tag: 'div', id: 'layout-root', style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
+            children: [
+                { tag: 'div', id: 'root-region', style: { position: 'absolute', margin: 0, border: 0, padding: 0, top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, overflow: 'hidden', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { tag: 'div', id: 'floating-region-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { tag: 'div', id: 'context-menu-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { tag: 'div', id: 'dialog-box-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
+            ]
+        });
         //clear body
         if(document.body.hasChildNodes()){
             var children = document.body.childNodes;
@@ -32,7 +57,7 @@
         //draw layout to page
         document.body.appendChild(this.dom);
 
-        OnlyOneLayoutRootPerPage = this;
+        layout = this;
     };
 
 
@@ -49,7 +74,7 @@
     };
 
 
-    ns.Layout.coreStyle = {
+    ns.Layout.style = {
         colors: {
             splitter: new Color(48,48,48),
             header: new Color(0,0,0),
@@ -64,30 +89,6 @@
 
 
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
-
-
-    var sWidth = ns.Layout.coreStyle.splitterWidth + 'px'
-        , domInfo = { tag: 'div', id: rs.layoutRoot, style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.coreStyle.colors.splitter.toStyle() },
-            children: [
-                { tag: 'div', id: rs.rootRegion, style: { position: 'absolute', margin: 0, border: 0, padding: 0, top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, overflow: 'hidden', background: ns.Layout.coreStyle.colors.splitter.toStyle() } },
-                { tag: 'div', id: rs.floatingRegionAnchor, style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.coreStyle.colors.splitter.toStyle() } },
-                { tag: 'div', id: rs.dialogBoxAnchor, style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.coreStyle.colors.splitter.toStyle() } }
-            ]
-        }
-        , htmlAndBodyStyle = {
-            position: 'absolute',
-            overflow: 'hidden',
-            margin: 0,
-            border: 0,
-            padding:0,
-            width: '100%',
-            height: '100%',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0
-        }
-        ;
 
 
 })(NS);
