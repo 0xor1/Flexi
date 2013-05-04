@@ -70,6 +70,9 @@
      */
     ns.Dom.prototype.dispose = function(){
         this.removeSelf();
+        if(this.dom.parentNode){ //just in case something went wrong
+            this.dom.parentNode.removeChild(this.dom);
+        }
         ns.Eventable.prototype.dispose.call(this);
     };
 

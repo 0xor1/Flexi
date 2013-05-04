@@ -42,6 +42,7 @@
                 { tag: 'div', id: 'dialog-box-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
             ]
         });
+
         //clear body
         if(document.body.hasChildNodes()){
             var children = document.body.childNodes;
@@ -53,6 +54,8 @@
         ns.Dom.style(document.documentElement, htmlAndBodyStyle);
         //style body element
         ns.Dom.style(document.body, htmlAndBodyStyle);
+
+
         //draw layout to page
         document.body.appendChild(this.dom);
 
@@ -65,6 +68,7 @@
         this.g = g;
         this.b = b;
     }
+
 
     Color.prototype = {
         toStyle: function(){
@@ -87,7 +91,27 @@
     };
 
 
+    ns.Layout.events = {
+        resize: 'resize'
+    }
+
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
+
+
+    ns.Layout.prototype.newRegion = function(domControl){
+        //
+    };
+
+    ns.Layout.prototype.embbedRegion = function(region){
+        //embed the region in the root-region element
+        //only if it is currently empty
+        //designed just to be used on app setup.
+    };
+
+
+    ns.Layout.prototype.floatRegion = function(region){
+
+    };
 
 
 })(NS);

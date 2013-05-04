@@ -11,6 +11,15 @@ module.exports = function(grunt){
                 'test/manual/index.htm'
             ],
 
+            /*copy: {
+                Eventable: {
+                    files: [
+                        {expand: true, src: ['../Core/src/**'], dest: 'src/'},
+                        {expand: true, src: ['../Core/test/unit/src/**'], dest: 'test/unit/src/'}
+                    ]
+                }
+            },*/
+
             concat: {
                 build: {
                     options: {
@@ -144,14 +153,14 @@ module.exports = function(grunt){
     );
 
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-contrib-qunit');
 
-    grunt.registerTask('default', ['clean','concat','uglify','yuidoc','qunit']);
-    grunt.registerTask('build', ['clean','concat','uglify']);
+    grunt.registerTask('default', ['clean',/*'copy',*/'concat','uglify','yuidoc','qunit']);
+    grunt.registerTask('build', ['clean','copy','concat','uglify']);
     grunt.registerTask('test', ['qunit']);
     grunt.registerTask('doc', ['yuidoc']);
-
 };
