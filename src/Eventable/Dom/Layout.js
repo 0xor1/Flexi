@@ -7,7 +7,6 @@
 
 
     var ns = window[NS] = window[NS] || {}
-        , rs = {}
         , layout
         ;
 
