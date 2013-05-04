@@ -89,7 +89,7 @@
              ns.Dom.addClass(dom, domInfo.class);
         }
         if(domInfo.id){
-            dom.id = domInfo.id;
+            dom.id = prfx(domInfo.id);
         }
         if(domInfo.children && domInfo.children.length > 0){
             for(var i = 0, l = domInfo.children.length; i < l; i++){
