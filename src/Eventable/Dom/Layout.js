@@ -7,14 +7,13 @@
 
 
     var ns = window[NS] = window[NS] || {}
-        , layout
         ;
 
 
     ns.Layout = function(layoutConfig){
 
-        if(layout){
-            return layout;
+        if(ns.Layout.current){
+            return ns.Layout.current;
         }
 
         var sWidth = ns.Layout.style.splitterWidth + 'px'
@@ -59,31 +58,47 @@
         //draw layout to page
         document.body.appendChild(this.dom);
 
-        layout = this;
+        ns.Layout.current = this;
     };
 
 
-    function Color(r, g, b){
-        this.r = r;
-        this.g = g;
-        this.b = b;
+    function HSLA(h, s, l, a){
+        this.h = h;
+        this.s = s;
+        this.l = l;
+        this.a = a || 1;
     }
 
 
-    Color.prototype = {
+    HSLA.prototype = {
         toStyle: function(){
-            return "rgb("+this.r+", "+this.g+", "+this.b+")";
+            return "hsla("+this.h+", "+this.s+"%, "+this.l+ "%, "+this.a+")";
+        }
+    };
+
+
+    function RGBA(r, g, b, a){
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.a = a || 1;
+    }
+
+
+    RGBA.prototype = {
+        toStyle: function(){
+            return "rgba("+this.r+", "+this.g+", "+this.b+ ", "+this.a+")";
         }
     };
 
 
     ns.Layout.style = {
         colors: {
-            splitter: new Color(48,48,48),
-            header: new Color(0,0,0),
-            tabBar: new Color(0,0,0),
-            tab: new Color(70,70,70),
-            selectedTab: new Color(150, 70, 0)
+            splitter: new RGBA(48,48,48),
+            header: new RGBA(0,0,0),
+            tabBar: new RGBA(0,0,0),
+            tab: new RGBA(70,70,70),
+            selectedTab: new RGBA(150, 70, 0)
         },
         splitterWidth: '4',
         tabHeight: '20px',
@@ -99,13 +114,15 @@
 
 
     ns.Layout.prototype.newRegion = function(domControl){
-        //
+
     };
 
+    //embed the region in the root-region element
+    //only if it is currently empty
+    //designed just to be used once on app setup.
     ns.Layout.prototype.embbedRegion = function(region){
-        //embed the region in the root-region element
-        //only if it is currently empty
-        //designed just to be used on app setup.
+        //TODO stuff
+        ns.Layout.prototype.embbedRegion = function(){};
     };
 
 

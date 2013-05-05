@@ -3,33 +3,37 @@
  * Date: 29/04/13
  */
 
-/*(function(NS){
+(function(NS){
 
     var ns = window[NS] = window[NS] || {}
-        , rs = ns.rs
-        , sWidth = ns.Layout.coreStyle.splitterWidth / 2
-        , verticalDomInfo = { tag: 'div', class: rs.verticalSplitRegion, style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
-            children: [
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', width: 'calc(50% - ' + sWidth + 'px)', height: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitter, style: { position: 'relative', width: (sWidth * 2) + 'px)', height: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', width: 'calc(50% - ' + sWidth + 'px)', height: '100%', overflow: 'hidden'} }
-            ]
-        }
-        , horizontalDomInfo = { tag: 'div', class: rs.horizontalSplitRegion, style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0 },
-            children: [
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', height: 'calc(50% - ' + sWidth + 'px)', width: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitter, style: { position: 'relative', height: (sWidth * 2) + 'px)', width: '100%', overflow: 'hidden'} },
-                { tag: 'div', class: rs.splitChunk, style: { position: 'relative', height: 'calc(50% - ' + sWidth + 'px)', width: '100%', overflow: 'hidden'} }
-            ]
-        };
+        ;
 
     ns.SplitRegion = function(firstChild, secondChild, orientation){
 
+        var sWidth = ns.Layout.style.splitterWidth / 2
+            , domInfo = { tag: 'div', style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
+                children: [
+                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} },
+                    { tag: 'div', class: 'splitter', style: { position: 'relative', overflow: 'hidden'} },
+                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} }
+                ]
+            }
+            , className = 'horizontal-split-region'
+            , variableSide = 'height'
+            , fixedSide = 'width'
+            ;
+
         if(orientation === 'vertical'){
-            ns.Dom.call(this, verticalDomInfo);
-        }else{
-            ns.Dom.call(this, horizontalDomInfo);
+            className = 'vertical-split-region';
+            variableSide = 'width';
+            fixedSide = 'height';
         }
+        domInfo.class = className;
+        domInfo.children[0].style[variableSide] = domInfo.children[2].style[variableSide] = 'calc(50% - ' + sWidth + 'px)';
+        domInfo.children[1].style[variableSide] = (sWidth * 2) + 'px';
+        domInfo.children[0].style[fixedSide] = domInfo.children[1].style[fixedSide] = domInfo.children[2].style[fixedSide] = '100%';
+
+        ns.Dom.call(this, domInfo);
 
         this.orientation = orientation;
         this.parent = null;
@@ -48,4 +52,4 @@
 
     };
 
-})(NS);*/
+})(NS);
