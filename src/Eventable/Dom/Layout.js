@@ -108,7 +108,7 @@
             tab: new RGBA(70,70,70),
             selectedTab: new RGBA(150, 70, 0)
         },
-        splitterWidth: '4',
+        splitterWidth: '6',
         tabHeight: '20px',
         headerHeight: '20px'
     };
@@ -125,9 +125,6 @@
 
     };
 
-    //embed the region in the root-region element
-    //only if it is currently empty
-    //designed just to be used once on app setup.
     ns.Layout.prototype.embedRegion = function(region){
         this.rootRegion.addChild(region);
         ns.Layout.prototype.embedRegion = function(){};

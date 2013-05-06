@@ -17,6 +17,7 @@
         region.addChild(new ns.FlexiRegion(), 1, 'horizontal');
         region.getRoot().addChild(new ns.FlexiRegion(), 1, 'vertical');
         region.addChild(new ns.FlexiRegion(), 0, 'vertical');
+        region.getRoot().addChild(new ns.FlexiRegion(), 0, 'horizontal');
         appLayout.embedRegion(region.getRoot());
 
     }

@@ -35,6 +35,7 @@
             this.child.parent = this;
             this.dom.appendChild(child.dom);
         }
+        return this;
     };
 
 
