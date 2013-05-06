@@ -2,11 +2,10 @@
  * User: 0xor1    http://github.com/0xor1
  * Date: 26/04/13
  */
-/*
+
 (function(NS){
 
     var ns = window[NS] = window[NS] || {}
-        //, domInfo = { tag: 'div', class: 'flexiRegion', style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'hidden', background: ns.Layout.coreStyle.background }}
         ;
 
     // purely a wrapper to setup new regions and provide a unified interface, it offers no additional
@@ -21,7 +20,7 @@
     };
 
 
-    //ns.FlexiRegion.prototype = Object.create(ns.SplittableRegion.prototype);
+    ns.FlexiRegion.prototype = Object.create(ns.SplittableRegion.prototype);
 
 
-})(NS);*/
+})(NS);

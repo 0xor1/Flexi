@@ -11,7 +11,13 @@
 
     function manualTestApp(){
 
-        var layout = new ns.Layout();
+        var appLayout = new ns.Layout();
+
+        region = new ns.FlexiRegion();
+        region.addChild(new ns.FlexiRegion(), 1, 'horizontal');
+        region.getRoot().addChild(new ns.FlexiRegion(), 1, 'vertical');
+        region.addChild(new ns.FlexiRegion(), 0, 'vertical');
+        appLayout.embedRegion(region.getRoot());
 
     }
 

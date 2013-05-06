@@ -59,8 +59,17 @@
      */
     ns.Dom.prototype.removeSelf = function(){
         if(this.parent){
-            this.parentNode.removeChild(this.dom);
+            this.parent.removeChild(this);
         }
+        return this;
+    };
+
+    ns.Dom.prototype.getRoot = function(){
+        var root = this;
+        while(root.parent){
+            root = root.parent;
+        }
+        return root;
     };
 
     /**

@@ -8,13 +8,14 @@
     var ns = window[NS] = window[NS] || {}
         ;
 
-    ns.SplittableRegion = function(child){
+    ns.SplittableRegion = function(child, resizeOrder){
 
         ns.Dom.call(this, { tag: 'div', class: 'splittable-region', style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} });
 
+        this.resizeOrder = resizeOrder || 1;
         this.parent = null;
 
-        if(!(child instanceof ns.SplitRegion) || !(child instanceof ns.TabbableRegion)){
+        if(!(child instanceof ns.SplitRegion) && !(child instanceof ns.TabbableRegion)){
             throw new Error("Attempting to add a child to SplittableRegion which is not a SplitRegion or TabbableRegion");
         }
 
@@ -43,8 +44,9 @@
             , newParent = new ns.SplittableRegion(new ns.SplitRegion(firstChild, secondChild, orientation))
             ;
 
-        oldParent.addChild(newParent);
-
+        if(oldParent){
+            oldParent.addChild(newParent);
+        }
         return this;
 
     };

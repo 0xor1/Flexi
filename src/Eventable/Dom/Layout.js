@@ -35,7 +35,6 @@
         ns.Dom.call(this,{
             tag: 'div', id: 'layout-root', style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
             children: [
-                { tag: 'div', id: 'root-region', style: { position: 'absolute', margin: 0, border: 0, padding: 0, top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, overflow: 'hidden', background: ns.Layout.style.colors.splitter.toStyle() } },
                 { tag: 'div', id: 'floating-region-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
                 { tag: 'div', id: 'context-menu-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
                 { tag: 'div', id: 'dialog-box-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
@@ -54,8 +53,17 @@
         //style body element
         ns.Dom.style(document.body, htmlAndBodyStyle);
 
+        //actual members
+        this.rootRegion = new ns.RootRegion();
+        this.selectedRegion = null;
+        this.selectedRegions = [];
+        this.floatingRegions = [];
+        this.windowedRegions = [];
+        this.dialogBoxes = [];
+        this.contextMenu = null;
 
         //draw layout to page
+        this.dom.insertBefore(this.rootRegion.dom, this.dom.children[0]);
         document.body.appendChild(this.dom);
 
         ns.Layout.current = this;
@@ -120,14 +128,14 @@
     //embed the region in the root-region element
     //only if it is currently empty
     //designed just to be used once on app setup.
-    ns.Layout.prototype.embbedRegion = function(region){
-        //TODO stuff
-        ns.Layout.prototype.embbedRegion = function(){};
+    ns.Layout.prototype.embedRegion = function(region){
+        this.rootRegion.addChild(region);
+        ns.Layout.prototype.embedRegion = function(){};
     };
 
 
     ns.Layout.prototype.floatRegion = function(region){
-
+        this.floatingRegions.push(new ns.FloatingRegion(region));
     };
 
 
