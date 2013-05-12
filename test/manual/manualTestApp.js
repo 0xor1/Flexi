@@ -14,10 +14,10 @@
         var appLayout = new ns.Layout();
 
         region = new ns.FlexiRegion();
-        region.addChild(new ns.FlexiRegion(), 1, 'horizontal');
-        region.getRoot().addChild(new ns.FlexiRegion(), 1, 'vertical');
-        region.addChild(new ns.FlexiRegion(), 0, 'vertical');
-        region.getRoot().addChild(new ns.FlexiRegion(), 0, 'horizontal');
+        region.group(new ns.FlexiRegion(), 1, 'horizontal');
+        region.getRoot().group(new ns.FlexiRegion(), 1, 'vertical');
+        region.group(new ns.FlexiRegion(), 0, 'vertical');
+        region.getRoot().group(new ns.FlexiRegion(), 0, 'horizontal');
         appLayout.embedRegion(region.getRoot());
 
     }

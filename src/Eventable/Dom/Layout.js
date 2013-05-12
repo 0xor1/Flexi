@@ -126,13 +126,17 @@
     };
 
     ns.Layout.prototype.embedRegion = function(region){
+        if(this.rootRegion.child){throw new Error("Cant embed a region as the root Region already contains a child")}
         this.rootRegion.addChild(region);
-        ns.Layout.prototype.embedRegion = function(){};
     };
 
 
     ns.Layout.prototype.floatRegion = function(region){
         this.floatingRegions.push(new ns.FloatingRegion(region));
+    };
+
+    ns.Layout.prototype.groupRegions = function(first, second, orientation){
+        return new ns.GroupedRegion(first, second, orientation);
     };
 
 
