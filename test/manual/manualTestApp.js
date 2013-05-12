@@ -13,12 +13,15 @@
 
         var appLayout = new ns.Layout();
 
-        region = new ns.FlexiRegion();
-        region.group(new ns.FlexiRegion(), 1, 'horizontal');
-        region.getRoot().group(new ns.FlexiRegion(), 1, 'vertical');
+        var region = new ns.FlexiRegion();
+        var tmpRegion = new ns.FlexiRegion();
+        var parent = region.group(new ns.FlexiRegion(), 1, 'horizontal');
+        parent = parent.group(tmpRegion, 1, 'vertical');
         region.group(new ns.FlexiRegion(), 0, 'vertical');
         region.getRoot().group(new ns.FlexiRegion(), 0, 'horizontal');
         appLayout.embedRegion(region.getRoot());
+
+        setTimeout(function(){tmpRegion.ungroup();}, 5000);
 
     }
 

@@ -58,18 +58,30 @@
             var parent = this.parent
                 , sibling = (parent.isFirstChild(this)) ? parent.secondChild : parent.firstChild
                 , grandParent = this.parent.parent
+                , greatGrandParent = grandParent.parent
                 ;
 
             this.removeSelf();
             sibling.removeSelf();
-            parent.dispose();
-            if(grandParent){
-                grandParent.addChild(sibling);
+
+            if(greatGrandParent){
+                greatGrandParent.removeChild(grandParent);
+                greatGrandParent.addChild(sibling);
             }
+            parent.dispose();
         }else{
-            throw new Error("can't ungroup form this region");
+            throw new Error("this region is not grouped");
         }
         return this;
+    };
+
+
+    ns.GroupableRegion.prototype.removeChild = function(child){
+        if(this.child === child){
+            this.child = null;
+            child.parent = null;
+            this.dom.removeChild(child.dom);
+        }
     };
 
 

@@ -111,11 +111,6 @@
     };
 
 
-    ns.GroupedRegion.prototype.dispose = function(){
-
-        ns.Dom.prorotype.dispose.call(this);
-    }
-
     function insertChildDom(child, idx){
         idx = (idx === 0) ? 0 : 2;
         this.dom.children[idx].appendChild(child.dom);
