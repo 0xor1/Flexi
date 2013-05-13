@@ -15,13 +15,13 @@
 
         var region = new ns.FlexiRegion();
         var tmpRegion = new ns.FlexiRegion();
-        var parent = region.group(new ns.FlexiRegion(), 1, 'horizontal');
-        parent = parent.group(tmpRegion, 1, 'vertical');
-        region.group(new ns.FlexiRegion(), 0, 'vertical');
-        region.getRoot().group(new ns.FlexiRegion(), 0, 'horizontal');
+        var parent = region.pair(new ns.FlexiRegion(), 1, 'horizontal');
+        parent = parent.pair(tmpRegion, 1, 'vertical');
+        region.pair(new ns.FlexiRegion(), 0, 'vertical');
+        region.getRoot().pair(new ns.FlexiRegion(), 0, 'horizontal');
         appLayout.embedRegion(region.getRoot());
 
-        setTimeout(function(){tmpRegion.ungroup();}, 5000);
+        setTimeout(function(){tmpRegion.unpair();}, 5000);
 
     }
 

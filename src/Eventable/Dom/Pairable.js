@@ -8,17 +8,17 @@
     var ns = window[NS] = window[NS] || {}
         ;
 
-    ns.GroupableRegion = function(child, resizeOrder){
+    ns.PairableRegion = function(child, resizeOrder){
 
         if(child.parent){throw new Error("Trying to adopt child that already has a parent");}
 
-        ns.Dom.call(this, { tag: 'div', class: 'groupable-region', style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} });
+        ns.Dom.call(this, { tag: 'div', class: 'pairable-region', style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} });
 
         this.resizeOrder = resizeOrder || 1;
         this.parent = null;
 
-        if(!(child instanceof ns.GroupedRegion) && !(child instanceof ns.TabbableRegion)){
-            throw new Error("Attempting to add a child to GroupableRegion which is not a GroupedRegion or TabbableRegion");
+        if(!(child instanceof ns.PairedRegion) && !(child instanceof ns.TabbableRegion)){
+            throw new Error("Attempting to add a child to PairableRegion which is not a PairedRegion or TabbableRegion");
         }
 
         this.child = child;
@@ -27,12 +27,12 @@
     };
 
 
-    ns.GroupableRegion.prototype = Object.create(ns.Dom.prototype);
+    ns.PairableRegion.prototype = Object.create(ns.Dom.prototype);
 
 
-    ns.GroupableRegion.prototype.group = function(region, idx, orientation){
+    ns.PairableRegion.prototype.pair = function(region, idx, orientation){
 
-        if(region.parent){throw new Error("Trying to group with a region that already has a parent");}
+        if(region.parent){throw new Error("Trying to pair with a region that already has a parent");}
 
         var firstRegion = (idx === 0) ? region : this
             , secondRegion = (idx === 0) ? this : region
@@ -42,7 +42,7 @@
 
         this.removeSelf();
 
-        newParent = new ns.GroupableRegion(new ns.GroupedRegion(firstRegion, secondRegion, orientation))
+        newParent = new ns.PairableRegion(new ns.PairedRegion(firstRegion, secondRegion, orientation))
 
         if(oldParent){
             oldParent.addChild(newParent);
@@ -53,8 +53,8 @@
     };
 
 
-    ns.GroupableRegion.prototype.ungroup = function(){
-        if(this.parent instanceof ns.GroupedRegion){
+    ns.PairableRegion.prototype.unpair = function(){
+        if(this.parent instanceof ns.PairedRegion){
             var parent = this.parent
                 , sibling = (parent.isFirstChild(this)) ? parent.secondChild : parent.firstChild
                 , grandParent = this.parent.parent
@@ -70,13 +70,13 @@
             }
             parent.dispose();
         }else{
-            throw new Error("this region is not grouped");
+            throw new Error("this region is not paired");
         }
         return this;
     };
 
 
-    ns.GroupableRegion.prototype.removeChild = function(child){
+    ns.PairableRegion.prototype.removeChild = function(child){
         if(this.child === child){
             this.child = null;
             child.parent = null;
@@ -85,8 +85,8 @@
     };
 
 
-    ns.GroupableRegion.GroupOverlay = ns.Dom.domGenerator({
-        tag: 'div', id: 'groupable-overlay', style: {}
+    ns.PairableRegion.PairOverlay = ns.Dom.domGenerator({
+        tag: 'div', id: 'pairable-overlay', style: {}
     });
 
 })(NS);

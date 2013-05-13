@@ -8,11 +8,12 @@
     var ns = window[NS] = window[NS] || {};
 
     //provides region resizing functionality, nothing else.
-    //GroupableRegion should take care of all external dom behaviour, grouped region just adds and removes children from itself
+    //PairableRegion should take care of all external dom behaviour, paired region just adds and removes children from itself
     //It does not dispose of itself or modify any other components in any way.
-    ns.GroupedRegion = function(firstChild, secondChild, orientation){
+    ns.PairedRegion = function(firstChild, secondChild, orientation){
 
         if(firstChild.parent || secondChild.parent){throw new Error("Trying to adopt child that already has a parent");}
+        if(!(firstChild instanceof ns.PairableRegion) || !(secondChild instanceof ns.PairableRegion)){throw new Error("PairedRegion only accepts PairableRegions")}
 
         var sWidth = ns.Layout.style.splitterWidth / 2
             , domInfo = { tag: 'div', style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
@@ -22,7 +23,7 @@
                     { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} }
                 ]
             }
-            , className = 'horizontal-grouped-region'
+            , className = 'horizontal-paired-region'
             , variableSide = 'height'
             , fixedSide = 'width'
             , float = ''
@@ -31,7 +32,7 @@
             ;
 
         if(orientation === 'vertical'){
-            className = 'vertical-grouped-region';
+            className = 'vertical-paired-region';
             variableSide = 'width';
             fixedSide = 'height';
             float = 'left';
@@ -64,14 +65,14 @@
     };
 
 
-    ns.GroupedRegion.prototype = Object.create(ns.Dom.prototype);
+    ns.PairedRegion.prototype = Object.create(ns.Dom.prototype);
 
 
-    ns.GroupedRegion.prototype.addChild = function(child){
+    ns.PairedRegion.prototype.addChild = function(child){
         var slot = (this.firstChild) ? 'secondChild' : 'firstChild'
             , idx = (slot === 'firstChild') ? 0 : 2;
             ;
-        if(this[slot]){throw new Error("All GroupedRegion child slots are occupied");}
+        if(this[slot]){throw new Error("All PairedRegion child slots are occupied");}
         if(child.parent){throw new Error("Can not add a child that still has a parent.");}
         this[slot] = child;
         insertChildDom.call(this, child, idx);
@@ -80,7 +81,7 @@
     };
 
 
-    ns.GroupedRegion.prototype.removeChild = function(child){
+    ns.PairedRegion.prototype.removeChild = function(child){
         var slot = (this.firstChild === child) ? 'firstChild' : (this.secondChild === child) ? 'secondChild' : null
             , idx = (slot === 'firstChild') ? 0 : 2
             ;
@@ -92,21 +93,22 @@
     };
 
 
-    ns.GroupedRegion.prototype.resize = function(firstRegionPercentage){
+    ns.PairedRegion.prototype.resize = function(firstRegionPercentage){
         var sWidth = ns.Layout.style.splitterWidth / 2
             , variableSide = (this.orientation === 'vertical') ? 'width' : 'height'
             ;
+        if(firstRegionPercentage >= 100 || firstPercentage <= 0){throw new Error("Can't resize to percentages outside 100 > p > 0")}
         this.dom.children[0].style[variableSide] = 'calc(' + firstRegionPercentage + '% - ' + sWidth + 'px)';
         this.dom.children[2].style[variableSide] = 'calc(' + (100 - firstRegionPercentage) + '% - ' + sWidth + 'px)';
     };
 
 
-    ns.GroupedRegion.prototype.isFirstChild = function(child){
+    ns.PairedRegion.prototype.isFirstChild = function(child){
         return this.firstChild === child;
     };
 
 
-    ns.GroupedRegion.prototype.isSecondChild = function(child){
+    ns.PairedRegion.prototype.isSecondChild = function(child){
         return this.secondChild === child;
     };
 

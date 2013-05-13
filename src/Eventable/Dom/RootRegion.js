@@ -29,7 +29,7 @@
 
     ns.RootRegion.prototype.addChild = function(child){
         if(this.child){return this;}
-        if(child instanceof ns.GroupableRegion){
+        if(child instanceof ns.PairableRegion){
             child.removeSelf();
             this.child = child;
             this.child.parent = this;
