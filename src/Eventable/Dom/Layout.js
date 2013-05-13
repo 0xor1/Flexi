@@ -7,17 +7,40 @@
 
 
     var ns = window[NS] = window[NS] || {}
-        , rs = ns.rs
-        , OnlyOneLayoutRootPerPage
         ;
+
 
     ns.Layout = function(layoutConfig){
 
-        if(OnlyOneLayoutRootPerPage){
-            return OnlyOneLayoutRootPerPage;
+        if(ns.Layout.current){
+            return ns.Layout.current;
         }
 
-        ns.Dom.call(this, domInfo);
+        var sWidth = ns.Layout.style.splitterWidth + 'px'
+            , htmlAndBodyStyle = {
+                position: 'absolute',
+                overflow: 'hidden',
+                margin: 0,
+                border: 0,
+                padding:0,
+                width: '100%',
+                height: '100%',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0
+            }
+            ;
+
+        ns.Dom.call(this,{
+            tag: 'div', id: 'layout-root', style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
+            children: [
+                { tag: 'div', id: 'floating-region-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { tag: 'div', id: 'context-menu-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { tag: 'div', id: 'dialog-box-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
+            ]
+        });
+
         //clear body
         if(document.body.hasChildNodes()){
             var children = document.body.childNodes;
@@ -29,65 +52,92 @@
         ns.Dom.style(document.documentElement, htmlAndBodyStyle);
         //style body element
         ns.Dom.style(document.body, htmlAndBodyStyle);
+
+        //actual members
+        this.rootRegion = new ns.RootRegion();
+        this.selectedRegion = null;
+        this.selectedRegions = [];
+        this.floatingRegions = [];
+        this.windowedRegions = [];
+        this.dialogBoxes = [];
+        this.contextMenu = null;
+
         //draw layout to page
+        this.dom.insertBefore(this.rootRegion.dom, this.dom.children[0]);
         document.body.appendChild(this.dom);
 
-        OnlyOneLayoutRootPerPage = this;
+        ns.Layout.current = this;
     };
 
 
-    function Color(r, g, b){
+    function HSLA(h, s, l, a){
+        this.h = h;
+        this.s = s;
+        this.l = l;
+        this.a = a || 1;
+    }
+
+
+    HSLA.prototype = {
+        toStyle: function(){
+            return "hsla("+this.h+", "+this.s+"%, "+this.l+ "%, "+this.a+")";
+        }
+    };
+
+
+    function RGBA(r, g, b, a){
         this.r = r;
         this.g = g;
         this.b = b;
+        this.a = a || 1;
     }
 
-    Color.prototype = {
+
+    RGBA.prototype = {
         toStyle: function(){
-            return "rgb("+this.r+", "+this.g+", "+this.b+")";
+            return "rgba("+this.r+", "+this.g+", "+this.b+ ", "+this.a+")";
         }
     };
-    
 
-    ns.Layout.coreStyle = {
+
+    ns.Layout.style = {
         colors: {
-            splitter: new Color(48,48,48),
-            header: new Color(0,0,0),
-            tabBar: new Color(0,0,0),
-            tab: new Color(70,70,70),
-            selectedTab: new Color(150, 70, 0)
+            splitter: new RGBA(48,48,48),
+            header: new RGBA(0,0,0),
+            tabBar: new RGBA(0,0,0),
+            tab: new RGBA(70,70,70),
+            selectedTab: new RGBA(150, 70, 0)
         },
-        splitterWidth: '4',
+        splitterWidth: '6',
         tabHeight: '20px',
         headerHeight: '20px'
     };
 
 
+    ns.Layout.events = {
+        resize: 'resize'
+    }
+
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
 
 
-    var sWidth = ns.Layout.coreStyle.splitterWidth + 'px'
-        , domInfo = { tag: 'div', id: rs.layoutRoot, style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.coreStyle.colors.splitter.toStyle() },
-            children: [
-                { tag: 'div', id: rs.rootRegion, style: { position: 'absolute', margin: 0, border: 0, padding: 0, top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, overflow: 'hidden', background: ns.Layout.coreStyle.colors.splitter.toStyle() } },
-                { tag: 'div', id: rs.floatingRegionAnchor, style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.coreStyle.colors.splitter.toStyle() } },
-                { tag: 'div', id: rs.dialogBoxAnchor, style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.coreStyle.colors.splitter.toStyle() } }
-            ]
-        }
-        , htmlAndBodyStyle = {
-            position: 'absolute',
-            overflow: 'hidden',
-            margin: 0,
-            border: 0,
-            padding:0,
-            width: '100%',
-            height: '100%',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0
-        }
-        ;
+    ns.Layout.prototype.newRegion = function(domControl){
+
+    };
+
+    ns.Layout.prototype.embedRegion = function(region){
+        if(this.rootRegion.child){throw new Error("Cant embed a region as the root Region already contains a child")}
+        this.rootRegion.addChild(region);
+    };
+
+
+    ns.Layout.prototype.floatRegion = function(region){
+        this.floatingRegions.push(new ns.FloatingRegion(region));
+    };
+
+    ns.Layout.prototype.groupRegions = function(first, second, orientation){
+        return new ns.GroupedRegion(first, second, orientation);
+    };
 
 
 })(NS);

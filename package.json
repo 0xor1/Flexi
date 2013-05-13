@@ -1,0 +1,22 @@
+{
+    "name": "FLEXI",
+    "version": "0.0.1",
+    "author": "0xor1    http://github.com/0xor1",
+    "description": "A flexible layout schema for single page web apps.",
+    "homepage": "http://github.com/0xor1/Flexi",
+    "contributors": [
+        {
+            "name": "Daniel Robinson - 0xor1"
+        }
+    ],
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-clean": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-yuidoc": "~0.4.0",
+        "grunt-contrib-qunit": "~0.2.1"
+    },
+    "license": "MIT"
+}
