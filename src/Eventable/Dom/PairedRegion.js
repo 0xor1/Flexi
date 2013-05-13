@@ -18,9 +18,9 @@
         var sWidth = ns.Layout.style.splitterWidth / 2
             , domInfo = { tag: 'div', style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
                 children: [
-                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} },
+                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} },
                     { tag: 'div', class: 'splitter', style: { position: 'relative', overflow: 'hidden'} },
-                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} }
+                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} }
                 ]
             }
             , className = 'horizontal-paired-region'
@@ -52,6 +52,8 @@
 
         ns.Dom.call(this, domInfo);
 
+        this.dom.children[1].addEventListener('mousedown', function(event){showResizeOverlay.call(this, event)}.bind(this), false);
+        window.addEventListener('mouseup', hideResizeOverlay.bind(this), false);
         this.orientation = orientation;
         this.parent = null;
         this.firstChild = firstChild
@@ -60,8 +62,27 @@
         this.secondChild.parent = this;
 
         insertChildDom.call(this, firstChild, 0);
-        insertChildDom.call(this, secondChild, 1)
+        insertChildDom.call(this, secondChild, 1);
 
+        //create static properties first time only
+        //TODO - refactor, way too much repetition in here
+        if(!ns.PairedRegion.verticalResizeOverlay){
+            ns.PairedRegion.verticalResizeOverlay = ns.Dom.domGenerator({
+                tag: 'div', id: 'vertical-resize-overlay', style: {position: 'absolute', width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle()},
+                children: [{tag: 'div', id: 'vertical-resize-overlay-splitter', style: {position: 'absolute', height: '100%', width: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle()}}]
+            });
+            ns.PairedRegion.verticalResizeOverlay.mouseMoveListener = function(event){
+
+            }.bind(this);
+
+            ns.PairedRegion.horizontalResizeOverlay = ns.Dom.domGenerator({
+                tag: 'div', id: 'horizontal-resize-overlay', style: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle()},
+                children: [{tag: 'div', id: 'horizontal-resize-overlay-splitter', style: {position: 'absolute', width: '100%', height: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle()}}]
+            });
+            ns.PairedRegion.horizontalResizeOverlay.mouseMoveListener = function(event){
+
+            }.bind(this);
+        }
     };
 
 
@@ -118,5 +139,18 @@
         this.dom.children[idx].appendChild(child.dom);
     }
 
+
+    function showResizeOverlay(){
+        var overlay = this.orientation + "ResizeOverlay";
+        this.dom.appendChild(ns.PairedRegion[overlay]);
+        ns.PairedRegion[overlay].addEventListener('mousemove', ns.PairedRegion[overlay].mouseMoveListener, false);
+    }
+
+    function hideResizeOverlay(){
+        var overlay = this.orientation + "ResizeOverlay";
+        var tmp = ns.PairedRegion[overlay];
+        this.dom.removeChild(ns.PairedRegion[overlay]);
+        ns.PairedRegion[overlay].removeEventListener('mousemove', ns.PairedRegion[overlay].mouseMoveListener, false);
+    }
 
 })(NS);
