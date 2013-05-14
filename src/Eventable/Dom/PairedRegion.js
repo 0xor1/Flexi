@@ -52,20 +52,20 @@
 
         ns.Dom.call(this, domInfo);
 
-        this.dom.children[1].addEventListener('mousedown', function(event){showResizeOverlay.call(this, event)}.bind(this), false);
+        this.dom.children[1].addEventListener('mousedown', showResizeOverlay.bind(this), false);
 
         this.hideResizeListener = hideResizeOverlay.bind(this)
         this.verticalMouseMoveListener = function(event){
             var splitterStyle = ns.PairedRegion.verticalResizeOverlay.children[0].style
                 , overlayOffsetX = ns.PairedRegion.verticalResizeOverlay.getBoundingClientRect().left
                 ;
-            splitterStyle.left =  event.clientX - overlayOffsetX;
+            splitterStyle.left = (event.clientX - overlayOffsetX) + 'px';
         }.bind(this);
         this.horizontalMouseMoveListener = function(event){
-            var splitterStyle = ns.PairedRegion.verticalResizeOverlay.children[0].style
-                , overlayOffsetY = ns.PairedRegion.verticalResizeOverlay.getBoundingClientRect().top
+            var splitterStyle = ns.PairedRegion.horizontalResizeOverlay.children[0].style
+                , overlayOffsetY = ns.PairedRegion.horizontalResizeOverlay.getBoundingClientRect().top
                 ;
-            splitterStyle.top =  event.clientY - overlayOffsetY;
+            splitterStyle.top = (event.clientY - overlayOffsetY) + 'px';
         }.bind(this);
 
         this.orientation = orientation;
@@ -147,17 +147,18 @@
     }
 
 
-    function showResizeOverlay(){
+    function showResizeOverlay(event){
         var overlay = this.orientation + "ResizeOverlay";
         this.dom.appendChild(ns.PairedRegion[overlay]);
-        ns.PairedRegion[overlay].addEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
+        this[this.orientation + 'MouseMoveListener'](event);
+        window.addEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
         window.addEventListener('mouseup', this.hideResizeListener, false);
     }
 
     function hideResizeOverlay(){
         var overlay = this.orientation + "ResizeOverlay";
         this.dom.removeChild(ns.PairedRegion[overlay]);
-        ns.PairedRegion[overlay].removeEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
+        window.removeEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
         window.removeEventListener('mouseup', this.hideResizeListener, false);
     }
 
