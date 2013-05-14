@@ -89,6 +89,8 @@
                 tag: 'div', id: 'horizontal-resize-overlay', style: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'n-resize'},
                 children: [{tag: 'div', id: 'horizontal-resize-overlay-splitter', style: {position: 'absolute', width: '100%', height: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'n-resize'}}]
             });
+
+            ns.PairedRegion.resizeInProgress = false;
         }
     };
 
@@ -148,9 +150,13 @@
 
 
     function showResizeOverlay(event){
+        if(ns.PairedRegion.resizeInProgress){
+            return;
+        }
         var overlay = this.orientation + "ResizeOverlay"
             , self = this
             ;
+        ns.PairedRegion.resizeInProgress = true;
         this.dom.appendChild(ns.PairedRegion[overlay]);
         this[this.orientation + 'MouseMoveListener'](event);
         setTimeout(function(){
@@ -181,6 +187,7 @@
         this.dom.removeChild(ns.PairedRegion[overlay]);
         window.removeEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
         window.removeEventListener('mousedown', this.hideResizeListener, false);
+        ns.PairedRegion.resizeInProgress = false;
     }
 
 })(NS);
