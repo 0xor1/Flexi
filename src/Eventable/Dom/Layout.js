@@ -109,7 +109,7 @@
             selectedTab: new RGBA(150, 70, 0),
             pairedRegionResizeOverlay: new RGBA(200,200,200,0.5)
         },
-        splitterWidth: '6',
+        splitterWidth: 6,
         tabHeight: '20px',
         headerHeight: '20px'
     };

@@ -163,13 +163,20 @@
 
     function hideResizeOverlay(){
         var overlay = this.orientation + "ResizeOverlay"
+            , sWidth = ns.Layout.style.splitterWidth
             , rectOverlay = ns.PairedRegion[overlay].getBoundingClientRect()
-            , rectSplitter = ns.PairedRegion[overlay].children[0].getBoundingClientRect();
+            , rectSplitter = ns.PairedRegion[overlay].children[0].getBoundingClientRect()
             ;
         if(this.orientation === 'horizontal'){
-            this.resize(((rectSplitter.top - rectOverlay.top) /rectOverlay.height)*100);
+            if(((rectSplitter.top - rectOverlay.top) > (ns.Layout.style.splitterWidth + 10))
+                && (rectSplitter.top < ((rectOverlay.top + rectOverlay.height) - ns.Layout.style.splitterWidth - 10))){
+                this.resize(((rectSplitter.top - rectOverlay.top) /rectOverlay.height)*100);
+            }
         }else{
-            this.resize(((rectSplitter.left - rectOverlay.left) /rectOverlay.width)*100);
+            if(((rectSplitter.left - rectOverlay.left) > (ns.Layout.style.splitterWidth + 10))
+                && (rectSplitter.left < ((rectOverlay.left + rectOverlay.width) - ns.Layout.style.splitterWidth - 10))){
+                this.resize(((rectSplitter.left - rectOverlay.left) /rectOverlay.width)*100);
+            }
         }
         this.dom.removeChild(ns.PairedRegion[overlay]);
         window.removeEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
