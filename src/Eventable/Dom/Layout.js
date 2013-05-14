@@ -107,7 +107,7 @@
             tabBar: new RGBA(0,0,0),
             tab: new RGBA(70,70,70),
             selectedTab: new RGBA(150, 70, 0),
-            pairedRegionResizeOverlay: new RGBA(200,200,200,0.7)
+            pairedRegionResizeOverlay: new RGBA(200,200,200,0.5)
         },
         splitterWidth: '6',
         tabHeight: '20px',
