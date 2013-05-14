@@ -18,9 +18,9 @@
         var sWidth = ns.Layout.style.splitterWidth / 2
             , domInfo = { tag: 'div', style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
                 children: [
-                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} },
+                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} },
                     { tag: 'div', class: 'splitter', style: { position: 'relative', overflow: 'hidden'} },
-                    { tag: 'div', class: 'split-chunk', style: { position: 'relative', overflow: 'hidden'} }
+                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} }
                 ]
             }
             , className = 'horizontal-paired-region'
@@ -47,10 +47,26 @@
             domInfo.children[1].style[fixedSide] = domInfo.children[2].style[fixedSide] = '100%';
         domInfo.children[0].style.float = domInfo.children[1].style.float = domInfo.children[2].style.float = float;
         domInfo.children[0].style.display =
-            domInfo.children[1].style.dsiplay = domInfo.children[2].style.display = display;
+            domInfo.children[1].style.display = domInfo.children[2].style.display = display;
         domInfo.children[1].style.cursor = cursor;
 
         ns.Dom.call(this, domInfo);
+
+        this.dom.children[1].addEventListener('mousedown', showResizeOverlay.bind(this), false);
+
+        this.hideResizeListener = hideResizeOverlay.bind(this)
+        this.verticalMouseMoveListener = function(event){
+            var splitterStyle = ns.PairedRegion.verticalResizeOverlay.children[0].style
+                , overlayOffsetX = ns.PairedRegion.verticalResizeOverlay.getBoundingClientRect().left
+                ;
+            splitterStyle.left = (event.clientX - overlayOffsetX) + 'px';
+        }.bind(this);
+        this.horizontalMouseMoveListener = function(event){
+            var splitterStyle = ns.PairedRegion.horizontalResizeOverlay.children[0].style
+                , overlayOffsetY = ns.PairedRegion.horizontalResizeOverlay.getBoundingClientRect().top
+                ;
+            splitterStyle.top = (event.clientY - overlayOffsetY) + 'px';
+        }.bind(this);
 
         this.orientation = orientation;
         this.parent = null;
@@ -60,8 +76,20 @@
         this.secondChild.parent = this;
 
         insertChildDom.call(this, firstChild, 0);
-        insertChildDom.call(this, secondChild, 1)
+        insertChildDom.call(this, secondChild, 1);
 
+        //create static properties first time only
+        if(!ns.PairedRegion.verticalResizeOverlay){
+            ns.PairedRegion.verticalResizeOverlay = ns.Dom.domGenerator({
+                tag: 'div', id: 'vertical-resize-overlay', style: {position: 'absolute', top:0, left: 0, width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'e-resize'},
+                children: [{tag: 'div', id: 'vertical-resize-overlay-splitter', style: {position: 'absolute', height: '100%', width: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'e-resize'}}]
+            });
+
+            ns.PairedRegion.horizontalResizeOverlay = ns.Dom.domGenerator({
+                tag: 'div', id: 'horizontal-resize-overlay', style: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'n-resize'},
+                children: [{tag: 'div', id: 'horizontal-resize-overlay-splitter', style: {position: 'absolute', width: '100%', height: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'n-resize'}}]
+            });
+        }
     };
 
 
@@ -97,7 +125,7 @@
         var sWidth = ns.Layout.style.splitterWidth / 2
             , variableSide = (this.orientation === 'vertical') ? 'width' : 'height'
             ;
-        if(firstRegionPercentage >= 100 || firstPercentage <= 0){throw new Error("Can't resize to percentages outside 100 > p > 0")}
+        if(firstRegionPercentage >= 100 || firstRegionPercentage <= 0){throw new Error("Can't resize to percentages outside 100 > p > 0")}
         this.dom.children[0].style[variableSide] = 'calc(' + firstRegionPercentage + '% - ' + sWidth + 'px)';
         this.dom.children[2].style[variableSide] = 'calc(' + (100 - firstRegionPercentage) + '% - ' + sWidth + 'px)';
     };
@@ -118,5 +146,34 @@
         this.dom.children[idx].appendChild(child.dom);
     }
 
+
+    function showResizeOverlay(event){
+        var overlay = this.orientation + "ResizeOverlay"
+            , self = this
+            ;
+        this.dom.appendChild(ns.PairedRegion[overlay]);
+        this[this.orientation + 'MouseMoveListener'](event);
+        setTimeout(function(){
+                window.addEventListener('mousemove', self[self.orientation + 'MouseMoveListener'], false);
+                window.addEventListener('mousedown', self.hideResizeListener, false);
+            },
+            0
+        );
+    }
+
+    function hideResizeOverlay(){
+        var overlay = this.orientation + "ResizeOverlay"
+            , rectOverlay = ns.PairedRegion[overlay].getBoundingClientRect()
+            , rectSplitter = ns.PairedRegion[overlay].children[0].getBoundingClientRect();
+            ;
+        if(this.orientation === 'horizontal'){
+            this.resize(((rectSplitter.top - rectOverlay.top) /rectOverlay.height)*100);
+        }else{
+            this.resize(((rectSplitter.left - rectOverlay.left) /rectOverlay.width)*100);
+        }
+        this.dom.removeChild(ns.PairedRegion[overlay]);
+        window.removeEventListener('mousemove', this[this.orientation + 'MouseMoveListener'], false);
+        window.removeEventListener('mousedown', this.hideResizeListener, false);
+    }
 
 })(NS);
