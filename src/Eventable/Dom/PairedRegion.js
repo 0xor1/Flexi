@@ -81,7 +81,7 @@
         //create static properties first time only
         if(!ns.PairedRegion.verticalResizeOverlay){
             ns.PairedRegion.verticalResizeOverlay = ns.Dom.domGenerator({
-                tag: 'div', id: 'vertical-resize-overlay', style: {position: 'absolute', width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'e-resize'},
+                tag: 'div', id: 'vertical-resize-overlay', style: {position: 'absolute', top:0, left: 0, width: '100%', height: '100%', margin: 0, border: 0, padding: 0, background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'e-resize'},
                 children: [{tag: 'div', id: 'vertical-resize-overlay-splitter', style: {position: 'absolute', height: '100%', width: (sWidth * 2)+'px', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'e-resize'}}]
             });
 
