@@ -25,14 +25,14 @@
      */
     ns.Dom = function(domInfo){
 
-        ns.Eventable.call(this);
+        CORE.Eventable.call(this);
 
         this.dom = ns.Dom.domGenerator(domInfo);
 
     };
 
 
-    ns.Dom.prototype = Object.create(ns.Eventable.prototype);
+    ns.Dom.prototype = Object.create(CORE.Eventable.prototype);
 
     /**
      * Throws an error, subclasses must overwrite if they require this functionality
@@ -95,11 +95,12 @@
      */
     ns.Dom.domGenerator = function(domInfo){
         if(!domInfo){return null;}
-        var dom = document.createElement(domInfo.tag);
+        var dom = document.createElement(domInfo.tag || 'div');
         ns.Dom.style(dom, domInfo.style);
         if(domInfo.class){
              ns.Dom.addClass(dom, domInfo.class);
         }
+        dom.className += " " + NS.toLowerCase();
         if(domInfo.id){
             dom.id = prfx(domInfo.id);
         }

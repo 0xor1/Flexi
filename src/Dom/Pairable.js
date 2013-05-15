@@ -12,7 +12,7 @@
 
         if(child.parent){throw new Error("Trying to adopt child that already has a parent");}
 
-        ns.Dom.call(this, { tag: 'div', class: 'pairable-region', style: { position: 'absolute', height: '100%', width: '100%', margin: 0, padding: 0, border: 0, overflow: 'hidden'} });
+        ns.Dom.call(this, { class: 'pairable-region', style: { height: '100%', width: '100%'} });
 
         this.resizeOrder = resizeOrder || 1;
         this.parent = null;

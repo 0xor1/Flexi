@@ -1,5 +1,19 @@
 module.exports = function(grunt){
 
+
+    var build_and_mini_src_build_and_run_tests = [
+            'clean',
+            'concat:src',
+            'concat:tests',
+            'concat:testDevHtml',
+            'concat:testMinHtml',
+            'concat:manualTestHtml',
+            'concat:manualTestApp',
+            'uglify',
+            'qunit'
+        ]
+        ;
+
     grunt.initConfig({
 
             pkg: grunt.file.readJSON('package.json'),
@@ -8,20 +22,10 @@ module.exports = function(grunt){
                 'build/*',
                 'doc/*',
                 'test/unit/build/*',
-                'test/manual/index.htm'
+                'test/manual/build/*'
             ],
-
-            /*copy: {
-                Eventable: {
-                    files: [
-                        {expand: true, src: ['../Core/src/**'], dest: 'src/'},
-                        {expand: true, src: ['../Core/test/unit/src/**'], dest: 'test/unit/src/'}
-                    ]
-                }
-            },*/
-
             concat: {
-                build: {
+                src: {
                     options: {
                         stripBanners: true,
                         banner: '/*\n'+
@@ -35,7 +39,10 @@ module.exports = function(grunt){
                     src: ['src/**/*.js'],
                     dest: 'build/<%= pkg.name %>.<%= pkg.version %>.dev.js'
                 },
-
+                lib: {
+                    src: ['../Core/build/*.dev.js'],
+                    dest: 'lib/libs.js'
+                },
                 tests:{
                     options: {
                         stripBanners: true,
@@ -53,6 +60,7 @@ module.exports = function(grunt){
                             '<head>\n'+
                             "<meta charset='utf-8'>\n"+
                             '<title><%= pkg.name %> v<%= pkg.version%> - unit test</title>\n'+
+                            '<script src="../../../lib/libs.js"></script>\n'+
                             '<script src="../../../build/<%= pkg.name %>.<%= pkg.version %>.dev.js"></script>\n'+
                             '<script src="../QUnit/QUnit-v1.11.0.js"></script>\n'+
                             '<script src="<%= pkg.name %>.<%= pkg.version %>.test.js"></script>\n'+
@@ -75,6 +83,7 @@ module.exports = function(grunt){
                             '<head>\n'+
                             "<meta charset='utf-8'>\n"+
                             '<title><%= pkg.name %> v<%= pkg.version%> - unit test</title>\n'+
+                            '<script src="../../../lib/libs.js"></script>\n'+
                             '<script src="../../../build/<%= pkg.name %>.<%= pkg.version %>.min.js"></script>\n'+
                             '<script src="../QUnit/QUnit-v1.11.0.js"></script>\n'+
                             '<script src="<%= pkg.name %>.<%= pkg.version %>.test.js"></script>\n'+
@@ -117,7 +126,7 @@ module.exports = function(grunt){
                             '(function(NS){\n\n',
                         footer: '\n\n})("<%= pkg.name %>");'
                     },
-                    src: ['src/**/*.js','test/manual/manualTestApp.js'],
+                    src: ['lib/libs.js', 'src/**/*.js','test/manual/manualTestApp.js'],
                     dest: 'test/manual/build/App.js'
                 }
             },
@@ -153,14 +162,13 @@ module.exports = function(grunt){
     );
 
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-yuidoc');
     grunt.loadNpmTasks('grunt-contrib-qunit');
 
-    grunt.registerTask('default', ['clean',/*'copy',*/'concat','uglify','yuidoc','qunit']);
-    grunt.registerTask('build', ['clean','copy','concat','uglify']);
+    grunt.registerTask('default', build_and_mini_src_build_and_run_tests);
+    grunt.registerTask('import', ['concat:lib']);
     grunt.registerTask('test', ['qunit']);
     grunt.registerTask('doc', ['yuidoc']);
 };
