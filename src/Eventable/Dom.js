@@ -95,7 +95,7 @@
      */
     ns.Dom.domGenerator = function(domInfo){
         if(!domInfo){return null;}
-        var dom = document.createElement(domInfo.tag);
+        var dom = document.createElement(domInfo.tag || 'div');
         ns.Dom.style(dom, domInfo.style);
         if(domInfo.class){
              ns.Dom.addClass(dom, domInfo.class);

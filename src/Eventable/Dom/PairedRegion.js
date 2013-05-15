@@ -16,11 +16,11 @@
         if(!(firstChild instanceof ns.PairableRegion) || !(secondChild instanceof ns.PairableRegion)){throw new Error("PairedRegion only accepts PairableRegions")}
 
         var sWidth = ns.Layout.style.splitterWidth / 2
-            , domInfo = { tag: 'div', style: { position: 'absolute', width: '100%', height: '100%', padding: 0, margin: 0, border: 0, overflow: 'hidden' },
+            , domInfo = {
                 children: [
-                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} },
-                    { tag: 'div', class: 'splitter', style: { position: 'relative', overflow: 'hidden'} },
-                    { tag: 'div', class: 'paired-item', style: { position: 'relative', overflow: 'hidden'} }
+                    { class: 'first-paired-item', style: { position: 'relative'} },
+                    { class: 'splitter', style: { position: 'relative'} },
+                    { class: 'second-paired-item', style: { position: 'relative'} }
                 ]
             }
             , className = 'horizontal-paired-region'

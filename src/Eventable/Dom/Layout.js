@@ -17,27 +17,14 @@
         }
 
         var sWidth = ns.Layout.style.splitterWidth + 'px'
-            , htmlAndBodyStyle = {
-                position: 'absolute',
-                overflow: 'hidden',
-                margin: 0,
-                border: 0,
-                padding:0,
-                width: '100%',
-                height: '100%',
-                top: 0,
-                left: 0,
-                bottom: 0,
-                right: 0
-            }
             ;
 
         ns.Dom.call(this,{
-            tag: 'div', id: 'layout-root', style: { position: 'absolute', margin: 0, border: 0, padding: 0, height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
+            id: 'layout-root', style: {overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
             children: [
-                { tag: 'div', id: 'floating-region-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
-                { tag: 'div', id: 'context-menu-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
-                { tag: 'div', id: 'dialog-box-anchor', style: { position: 'absolute', margin: 0, border: 0, padding: 0, right:'100%', height: '100%', width: '100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
+                { id: 'floating-region-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { id: 'context-menu-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
+                { id: 'dialog-box-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
             ]
         });
 
@@ -54,10 +41,6 @@
                 document.body.removeChild(children[i]);
             }
         }
-        //style doc element
-        ns.Dom.style(document.documentElement, htmlAndBodyStyle);
-        //style body element
-        ns.Dom.style(document.body, htmlAndBodyStyle);
 
         //actual members
         this.rootRegion = new ns.RootRegion();
