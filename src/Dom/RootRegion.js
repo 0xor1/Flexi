@@ -17,7 +17,7 @@
         var sWidth = ns.Layout.style.splitterWidth + 'px'
             ;
 
-        ns.Dom.call(this, { tag: 'div', id: 'root-region', style: { position: 'absolute', margin: 0, border: 0, padding: 0, top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, overflow: 'hidden', background: ns.Layout.style.colors.splitter.toStyle() } })
+        ns.Dom.call(this, { id: 'root-region', style: { top: sWidth, right: sWidth, bottom: sWidth, left: sWidth, background: ns.Layout.style.colors.splitter.toStyle() } })
 
         ns.RootRegion.current = this;
 
