@@ -16,21 +16,18 @@
             return ns.Layout.current;
         }
 
-        var sWidth = ns.Layout.style.splitterWidth + 'px'
-            ;
-
         ns.Dom.call(this,{
-            id: 'layout-root', style: {overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
+            id: 'layout-root', style: { height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
             children: [
-                { id: 'floating-region-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
-                { id: 'context-menu-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } },
-                { id: 'dialog-box-anchor', style: { left:'-100%', overflow: 'visible', background: ns.Layout.style.colors.splitter.toStyle() } }
+                { id: 'floating-region-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
+                { id: 'context-menu-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
+                { id: 'dialog-box-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible' } }
             ]
         });
 
         //add default style for all flexi elements
         var styleNode = document.createElement('style');
-        styleNode.appendChild(document.createTextNode('html, body, .' + NS.toLowerCase() + '{position: absolute; top: 0; left: 0; height: 100%; width: 100%; margin: 0; border: 0; padding: 0; overflow: hidden;}'));
+        styleNode.appendChild(document.createTextNode('html, body {width: 100%; height: 100%;} html, body, .' + NS.toLowerCase() + '{position: absolute; margin: 0; border: 0; padding: 0; overflow: hidden;}'));
         styleNode.type = 'text/css';
         document.head.appendChild(styleNode);
 
