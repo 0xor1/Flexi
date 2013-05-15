@@ -17,7 +17,7 @@
         }
 
         ns.Dom.call(this,{
-            id: 'layout-root', style: { height: '100%', width: '100%', overflow: 'auto', background: ns.Layout.style.colors.splitter.toStyle() },
+            id: 'layout-root', style: { height: '100%', width: '100%', background: ns.Layout.style.colors.splitter.toStyle() },
             children: [
                 { id: 'floating-region-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
                 { id: 'context-menu-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
@@ -41,6 +41,7 @@
 
         //actual members
         this.rootRegion = new ns.RootRegion();
+        this.dom.insertBefore(this.rootRegion.dom, this.dom.children[0]);
         this.selectedRegion = null;
         this.selectedRegions = [];
         this.floatingRegions = [];
@@ -48,8 +49,7 @@
         this.dialogBoxes = [];
         this.contextMenu = null;
 
-        //draw layout to page
-        this.dom.insertBefore(this.rootRegion.dom, this.dom.children[0]);
+        //render layout
         document.body.appendChild(this.dom);
 
         ns.Layout.current = this;

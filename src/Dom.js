@@ -25,14 +25,14 @@
      */
     ns.Dom = function(domInfo){
 
-        ns.Eventable.call(this);
+        CORE.Eventable.call(this);
 
         this.dom = ns.Dom.domGenerator(domInfo);
 
     };
 
 
-    ns.Dom.prototype = Object.create(ns.Eventable.prototype);
+    ns.Dom.prototype = Object.create(CORE.Eventable.prototype);
 
     /**
      * Throws an error, subclasses must overwrite if they require this functionality
