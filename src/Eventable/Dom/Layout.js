@@ -41,6 +41,12 @@
             ]
         });
 
+        //add default style for all flexi elements
+        var styleNode = document.createElement('style');
+        styleNode.appendChild(document.createTextNode('html, body, .' + NS.toLowerCase() + '{position: absolute; top: 0; left: 0; height: 100%; width: 100%; margin: 0; border: 0; padding: 0; overflow: hidden;}'));
+        styleNode.type = 'text/css';
+        document.head.appendChild(styleNode);
+
         //clear body
         if(document.body.hasChildNodes()){
             var children = document.body.childNodes;

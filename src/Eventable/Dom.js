@@ -100,6 +100,7 @@
         if(domInfo.class){
              ns.Dom.addClass(dom, domInfo.class);
         }
+        ns.Dom.addClass(dom, NS.toLowerCase());
         if(domInfo.id){
             dom.id = prfx(domInfo.id);
         }
