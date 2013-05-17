@@ -11,7 +11,7 @@
     // place holder just for dev testing
     ns.DummyControl = function(){
         ns.Dom.call(this,{
-            class: 'dummy-control', style: { background: 'hsl('+Math.random()*359+',20%,50%)', height: '100%', width: '100%'},
+            class: 'dummy-control', style: { background: '#fff', height: '100%', width: '100%'},
             children: [
                 { tag: 'span', class: 'some-user-provided-content'}
             ]

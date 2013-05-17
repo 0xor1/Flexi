@@ -89,7 +89,7 @@
     ns.Layout.style = {
         colors: {
             splitter: new RGBA(15,45,80),
-            header: new RGBA(7,55,110),
+            header: new RGBA(15,65,120),
             tabBar: new RGBA(15,45,80),
             tab: new RGBA(250,250,250, 0.8),
             selectedTab: new RGBA(250, 250, 250),
