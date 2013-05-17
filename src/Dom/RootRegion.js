@@ -33,7 +33,7 @@
             child.removeSelf();
             this.child = child;
             this.child.parent = this;
-            this.dom.appendChild(child.dom);
+            this.domRoot().appendChild(child.domRoot());
         }
         return this;
     };
@@ -43,7 +43,7 @@
         if(this.child === child){
             this.child = null;
             child.parent = null;
-            this.dom.removeChild(child.dom);
+            this.domRoot().removeChild(child.domRoot());
         }
     };
 

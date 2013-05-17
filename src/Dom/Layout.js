@@ -19,15 +19,15 @@
         ns.Dom.call(this,{
             id: 'layout-root', style: { height: '100%', width: '100%', background: ns.Layout.style.colors.splitter.toStyle() },
             children: [
-                { id: 'floating-region-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
-                { id: 'context-menu-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
-                { id: 'dialog-box-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible' } }
+                { prop: 'floatAnchor', id: 'floating-region-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
+                { prop: 'contextMenuAnchor', id: 'context-menu-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible'} },
+                { prop: 'dialogBoxAnchor', id: 'dialog-box-anchor', style: { height: '100%', width: '100%', left:'-100%', overflow: 'visible' } }
             ]
         });
 
         //add default style for all flexi elements
         var styleNode = document.createElement('style');
-        styleNode.appendChild(document.createTextNode('html, body {width: 100%; height: 100%;} html, body, .' + NS.toLowerCase() + '{position: absolute; margin: 0; border: 0; padding: 0; overflow: hidden;}'));
+        styleNode.appendChild(document.createTextNode('html, body {width: 100%; height: 100%;} html, body, div.' + NS.toLowerCase() + '{position: absolute; margin: 0; border: 0; padding: 0; overflow: hidden; font-family: verdana, arial, sans-serif;}'));
         styleNode.type = 'text/css';
         document.head.appendChild(styleNode);
 
@@ -41,16 +41,13 @@
 
         //actual members
         this.rootRegion = new ns.RootRegion();
-        this.dom.insertBefore(this.rootRegion.dom, this.dom.children[0]);
+        this.dom.root.insertBefore(this.rootRegion.domRoot(), this.dom.floatAnchor);
         this.selectedRegion = null;
         this.selectedRegions = [];
         this.floatingRegions = [];
         this.windowedRegions = [];
         this.dialogBoxes = [];
         this.contextMenu = null;
-
-        //render layout
-        document.body.appendChild(this.dom);
 
         ns.Layout.current = this;
     };
@@ -88,16 +85,18 @@
 
     ns.Layout.style = {
         colors: {
-            splitter: new RGBA(48,48,48),
-            header: new RGBA(0,0,0),
-            tabBar: new RGBA(0,0,0),
-            tab: new RGBA(70,70,70),
-            selectedTab: new RGBA(150, 70, 0),
-            pairedRegionResizeOverlay: new RGBA(200,200,200,0.5)
+            splitter: new RGBA(15,45,80),
+            header: new RGBA(15,65,120),
+            tabBar: new RGBA(15,45,80),
+            tab: new RGBA(250,250,250, 0.8),
+            selectedTab: new RGBA(250, 250, 250),
+            pairedRegionResizeOverlay: new RGBA(200,200,200,0.4)
         },
         splitterWidth: 6,
         tabHeight: '20px',
-        headerHeight: '20px'
+        tabWidth: '80px',
+        headerHeight: '20px',
+        regionBorderRadius: '5px'
     };
 
 
@@ -106,6 +105,11 @@
     }
 
     ns.Layout.prototype = Object.create(ns.Dom.prototype);
+
+
+    ns.Layout.prototype.render = function(){
+        document.body.appendChild(this.domRoot());
+    }
 
 
     ns.Layout.prototype.newRegion = function(domControl){
