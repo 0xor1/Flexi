@@ -25,8 +25,8 @@
             ]
         });
 
-        this.children = [];
-        this.addControl(controlWrapper);
+        this.children = [controlWrapper];
+        this.dom.children[1].appendChild(controlWrapper.dom);
     };
 
 
@@ -35,15 +35,12 @@
 
     ns.TabbableRegion.prototype.addControl = function(controlWrapper){
         if(!(controlWrapper instanceof ns.ControlWrapper)){throw new Error("Can only accept wrapped controls.");}
-        if(this.children.length === 0){
-            this.children.push(controlWrapper);
-            this.dom.children[2].appendChild(CreateTabDom(controlWrapper.name, controlWrapper.icon));
-            this.dom.children[2].style.height = ns.Layout.style.tabHeight;
-            this.dom.children[1].style.bottom = ns.Layout.style.tabHeight;
-            this.dom.children[1].appendChild(controlWrapper.dom);
-        }else{
-            //TODO - add another tab when a tab already exists
-        }
+        this.children.push(controlWrapper);
+        this.dom.children[2].removeChild();//TODO - remove the only child
+        this.dom.children[2].appendChild(CreateTabDom(controlWrapper.name, controlWrapper.icon));
+        this.dom.children[2].style.height = ns.Layout.style.tabHeight;
+        this.dom.children[1].style.bottom = ns.Layout.style.tabHeight;
+        this.dom.children[1].appendChild(controlWrapper.dom);
     };
 
 

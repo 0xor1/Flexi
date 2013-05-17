@@ -88,16 +88,18 @@
 
     ns.Layout.style = {
         colors: {
-            splitter: new RGBA(48,48,48),
-            header: new RGBA(0,0,0),
-            tabBar: new RGBA(0,0,0),
-            tab: new RGBA(70,70,70),
-            selectedTab: new RGBA(150, 70, 0),
-            pairedRegionResizeOverlay: new RGBA(200,200,200,0.5)
+            splitter: new RGBA(15,45,80),
+            header: new RGBA(7,55,110),
+            tabBar: new RGBA(15,45,80),
+            tab: new RGBA(250,250,250, 0.8),
+            selectedTab: new RGBA(250, 250, 250),
+            pairedRegionResizeOverlay: new RGBA(200,200,200,0.4)
         },
         splitterWidth: 6,
-        tabHeight: '20px',
-        headerHeight: '20px'
+        tabHeight: '15px',
+        tabWidth: '80px',
+        headerHeight: '15px',
+        regionBorderRadius: '5px'
     };
 
 
