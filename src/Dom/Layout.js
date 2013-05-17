@@ -96,9 +96,9 @@
             pairedRegionResizeOverlay: new RGBA(200,200,200,0.4)
         },
         splitterWidth: 6,
-        tabHeight: '15px',
+        tabHeight: '20px',
         tabWidth: '80px',
-        headerHeight: '15px',
+        headerHeight: '20px',
         regionBorderRadius: '5px'
     };
 
