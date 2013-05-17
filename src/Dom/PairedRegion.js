@@ -44,15 +44,6 @@
             display = '';
             cursor = 'n-resize';
         }
-        /*domInfo.class = className;
-        domInfo.children[0].style[varDim] = domInfo.children[2].style[varDim] = 'calc(50% - ' + sWidth + 'px)';
-        domInfo.children[1].style[varDim] = (sWidth * 2) + 'px';
-        domInfo.children[0].style[fixDim] =
-            domInfo.children[1].style[fixDim] = domInfo.children[2].style[fixDim] = '100%';
-        domInfo.children[0].style.float = domInfo.children[1].style.float = domInfo.children[2].style.float = float;
-        domInfo.children[0].style.display =
-            domInfo.children[1].style.display = domInfo.children[2].style.display = display;
-        domInfo.children[1].style.cursor = cursor;*/
 
         ns.Dom.call(this, domInfo);
 
