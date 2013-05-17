@@ -13,10 +13,10 @@
         ns.Dom.call(this,{
             class: 'dummy-control', style: { background: '#fff', height: '100%', width: '100%'},
             children: [
-                { tag: 'span', class: 'some-user-provided-content'}
+                { prop: 'content', tag: 'span', class: 'some-user-provided-content'}
             ]
         });
-        this.dom.children[0].innerHTML = 'Region #' + this.id();
+        this.dom.content.innerHTML = 'Region #' + this.id();
     };
 
     ns.DummyControl.prototype = Object.create(ns.Dom.prototype);

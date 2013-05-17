@@ -26,6 +26,7 @@
         region.pair(new ns.FlexiRegion(dCons[3], 3), 0, 'vertical');
         region.getRoot().pair(new ns.FlexiRegion(dCons[4], 4), 0, 'horizontal');
         appLayout.embedRegion(region.getRoot());
+        appLayout.render();
 
         setTimeout(function(){tmpRegion.unpair();}, 5000);
 

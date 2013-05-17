@@ -79,10 +79,14 @@
      */
     ns.Dom.prototype.dispose = function(){
         this.removeSelf();
-        if(this.dom.parentNode){ //just in case something went wrong
-            this.dom.parentNode.removeChild(this.dom);
+        if(this.dom.root.parentNode){ //just in case something went wrong
+            this.dom.root.parentNode.removeChild(this.dom.root);
         }
         ns.Eventable.prototype.dispose.call(this);
+    };
+
+    ns.Dom.prototype.domRoot = function(){
+        return this.dom.root;
     };
 
     /**
@@ -93,23 +97,34 @@
      * @param {Object} domInfo An object describing the structure of the html to generate
      * @returns {HTMLElement} The generated html
      */
-    ns.Dom.domGenerator = function(domInfo){
+    ns.Dom.domGenerator = function(domInfo, dom){
         if(!domInfo){return null;}
-        var dom = document.createElement(domInfo.tag || 'div');
-        ns.Dom.style(dom, domInfo.style);
-        if(domInfo.class){
-             ns.Dom.addClass(dom, domInfo.class);
+        var current = document.createElement(domInfo.tag || 'div');
+        if(!dom){
+            var initialCall = true;
+            dom = {};
+            dom.root = current;
         }
-        dom.className += " " + NS.toLowerCase();
+        if(domInfo.prop){
+            dom[domInfo.prop] = current;
+        }
+        ns.Dom.style(current, domInfo.style);
+        if(domInfo.class){
+             ns.Dom.addClass(current, domInfo.class);
+        }
+        current.className += " " + NS.toLowerCase();
         if(domInfo.id){
-            dom.id = prfx(domInfo.id);
+            current.id = prfx(domInfo.id);
         }
         if(domInfo.children && domInfo.children.length > 0){
             for(var i = 0, l = domInfo.children.length; i < l; i++){
-                dom.appendChild(ns.Dom.domGenerator(domInfo.children[i]));
+                current.appendChild(ns.Dom.domGenerator(domInfo.children[i], dom));
             }
         }
-        return dom;
+        if(initialCall){
+            return dom;
+        }
+        return current;
     }
 
     /**

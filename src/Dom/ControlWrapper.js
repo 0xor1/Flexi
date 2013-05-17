@@ -17,7 +17,7 @@
         this.name = name;
         this.icon = icon;
 
-        this.dom.appendChild(control.dom);
+        this.domRoot().appendChild(control.domRoot());
     };
 
 

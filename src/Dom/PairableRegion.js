@@ -11,19 +11,16 @@
     ns.PairableRegion = function(child, resizeOrder){
 
         if(child.parent){throw new Error("Trying to adopt child that already has a parent");}
-
-        ns.Dom.call(this, { class: 'pairable-region', style: { height: '100%', width: '100%'} });
-
-        this.resizeOrder = resizeOrder || 1;
-        this.parent = null;
-
         if(!(child instanceof ns.PairedRegion) && !(child instanceof ns.TabbableRegion)){
             throw new Error("Attempting to add a child to PairableRegion which is not a PairedRegion or TabbableRegion");
         }
 
+        ns.Dom.call(this, { class: 'pairable-region', style: { height: '100%', width: '100%'} });
+
+        this.parent = null;
         this.child = child;
         this.child.parent = this;
-        this.dom.appendChild(this.child.dom);
+        this.domRoot().appendChild(this.child.domRoot());
     };
 
 
@@ -80,7 +77,7 @@
         if(this.child === child){
             this.child = null;
             child.parent = null;
-            this.dom.removeChild(child.dom);
+            this.domRoot().removeChild(child.domRoot());
         }
     };
 
