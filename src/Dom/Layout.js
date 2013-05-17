@@ -27,7 +27,7 @@
 
         //add default style for all flexi elements
         var styleNode = document.createElement('style');
-        styleNode.appendChild(document.createTextNode('html, body {width: 100%; height: 100%;} html, body, .' + NS.toLowerCase() + '{position: absolute; margin: 0; border: 0; padding: 0; overflow: hidden;}'));
+        styleNode.appendChild(document.createTextNode('html, body {width: 100%; height: 100%;} html, body, .' + NS.toLowerCase() + '{position: absolute; margin: 0; border: 0; padding: 0; overflow: hidden; font-family: verdana, arial, sans-serif;}'));
         styleNode.type = 'text/css';
         document.head.appendChild(styleNode);
 
