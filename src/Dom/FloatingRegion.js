@@ -10,10 +10,10 @@
         ;
 
 
-    ns.FloatingRegion = function(){
+    ns.FloatingRegion = function(pairableRegion){
 
         ns.Dom.call(this,{
-            tag: 'div', class: 'floating-region', style: { position: 'absolute' /*TODO ...*/ }
+            class: 'floating-region', style: { }
         });
     };
 
