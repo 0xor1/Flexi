@@ -25,11 +25,17 @@
             ]
         });
 
+        this.parent = null;
         this.currentTab = null;
         this.currentControl = controlWrapper;
         this.children = [controlWrapper];
         this.tabs = []; //TODO - create a new internal class ns.Tab to handle all duties, will be more complex than first thought
         this.dom.content.appendChild(controlWrapper.domRoot());
+        this.headerClickListener = function(){
+            //this.parent.unpair().float();
+            this.parent.showOverlay();
+        }.bind(this);
+        this.dom.header.addEventListener('mousedown', this.headerClickListener, false);
     };
 
 
