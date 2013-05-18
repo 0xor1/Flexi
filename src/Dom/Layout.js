@@ -48,6 +48,8 @@
         this.windowedRegions = [];
         this.dialogBoxes = [];
         this.contextMenu = null;
+        this.reconfigurationInProgress = false;
+
 
         ns.Layout.current = this;
     };
@@ -96,7 +98,8 @@
         tabHeight: '20px',
         tabWidth: '80px',
         headerHeight: '20px',
-        regionBorderRadius: '5px'
+        regionBorderRadius: '5px',
+        selectorSize: 40
     };
 
 
@@ -113,7 +116,6 @@
 
 
     ns.Layout.prototype.newRegion = function(domControl){
-
     };
 
     ns.Layout.prototype.embedRegion = function(region){

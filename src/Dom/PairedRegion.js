@@ -68,9 +68,8 @@
         this.dom.firstSlot.appendChild(firstChild.domRoot());
         this.dom.secondSlot.appendChild(secondChild.domRoot());
 
-        //create static properties first time only
         if(!ns.PairedRegion.verticalResizeOverlay){
-            var bRad = ns.Layout.style.regionBorderRadius
+            var bRad = ns.Layout.style.regionBorderRadius;
             ns.PairedRegion.verticalResizeOverlay = ns.Dom.domGenerator({
                 id: 'vertical-resize-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'n-resize'},
                 children: [{ prop: 'splitter', id: 'vertical-resize-overlay-splitter', style: { height: (sWidth * 2)+'px', width: '100%', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'n-resize'}}]
@@ -180,6 +179,5 @@
             ;
         splitterStyle.left = (event.clientX - overlayOffsetX) + 'px';
     }
-
 
 })(NS);
