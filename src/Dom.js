@@ -98,7 +98,6 @@
      * @returns {HTMLElement} The generated html
      */
     ns.Dom.domGenerator = function(domInfo, dom){
-        if(!domInfo){return null;}
         var current = document.createElement(domInfo.tag || 'div');
         if(!dom){
             var initialCall = true;

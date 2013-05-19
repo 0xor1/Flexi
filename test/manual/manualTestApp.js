@@ -11,7 +11,6 @@
 
     function manualTestApp(){
 
-        var appLayout = new ns.Layout();
         var dCons = [
             new ns.DummyControl(),
             new ns.DummyControl(),
@@ -19,6 +18,7 @@
             new ns.DummyControl(),
             new ns.DummyControl()
         ];
+        var appLayout = new ns.Layout();
         var region = new ns.FlexiRegion(dCons[0], 0);
         var tmpRegion = new ns.FlexiRegion(dCons[1], 1);
         var parent = region.pair(new ns.FlexiRegion(dCons[2], 2), 1, 'horizontal');

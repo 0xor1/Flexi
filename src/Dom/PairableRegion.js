@@ -8,7 +8,7 @@
     var ns = window[NS] = window[NS] || {}
         ;
 
-    ns.PairableRegion = function(child){
+    ns.PairableRegion = function(child, name, icon, isClosable){
 
         if(child.parent){throw new Error("Trying to adopt child that already has a parent");}
         if(!(child instanceof ns.PairedRegion) && !(child instanceof ns.TabbableRegion)){
@@ -21,6 +21,9 @@
         this.child = child;
         this.child.parent = this;
         this.domRoot().appendChild(this.child.domRoot());
+
+        this.isHidden = false;
+
     };
 
 
@@ -73,6 +76,25 @@
         return this;
     };
 
+    ns.PairableRegion.prototype.hide = function(){
+        if(this.isHidden){return;}
+        this.float();
+        this.hide
+    };
+
+    ns.PairableRegion.prototype.show = function(){
+        if(this.isHidden){
+
+        }
+    };
+
+    ns.PairableRegion.prototype.float = function(){
+        if(this.parent instanceof ns.FloatingRegion){return;}
+        this.unpair();
+        ns.Layout.current.addFloatingRegion(new ns.FloatingRegion(this));
+    };
+
+
 
     ns.PairableRegion.prototype.removeChild = function(child){
         if(this.child === child){
@@ -95,7 +117,7 @@
     }
 
     function replaceTabSelector(){
-        ns.PairableRegion.pairOverlay.domRoot().removeChild(ns.PairableRegion.pairOverlay.tabSelector);
+        ns.PairableRegion.pairOverlay.domRoot().insertBefore(ns.PairableRegion.pairOverlay.tabSelector, ns.PairableRegion.pairOverlay.leftSelector);
     }
 
     var selSize = ns.Layout.style.selectorSize
@@ -107,15 +129,15 @@
         id: 'pair-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle() },
         children: [
             { prop: 'topSelector', id: 'top-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 2*selSize + 'px)', left: 'calc(50% - '+selSize*0.5+'px)', width: selSize+'px', height: selSize+'px', background: color},
-                children: [{style: {left: '4px', top: '4px', right: '4px', bottom: selSize*0.5+'px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
+                children: [{style: {left: '5px', top: '5px', right: '5px', bottom: selSize*0.5+'px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'leftSelector', id: 'left-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% - '+selSize*2+'px)', width: selSize+'px', height: selSize+'px', background: color},
-                children: [{style: {left: '4px', top: '4px', right: selSize*0.5+'px', bottom: '4px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
+                children: [{style: {left: '5px', top: '5px', right: selSize*0.5+'px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'tabSelector', id: 'tab-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% - '+selSize*0.5+'px)', width: selSize+'px', height: selSize+'px', background: color },
-                children: [{style: {left: '4px', top: '4px', right: '4px', bottom: '4px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
+                children: [{style: {left: '5px', top: '5px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'rightSelector', id: 'right-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% + '+selSize+'px)', width: selSize+'px', height: selSize+'px', background: color },
-                children: [{style: {left: selSize*0.5+'px', top: '4px', right: '4px', bottom: '4px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
+                children: [{style: {left: selSize*0.5+'px', top: '5px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'bottomSelector', id: 'bottom-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% + ' +selSize + 'px)', left: 'calc(50% - '+0.5*selSize+'px)', width: selSize+'px', height: selSize+'px', background: color },
-                children: [{style: {left: '4px', top: selSize*0.5+'px', right: '4px', bottom: '4px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]}
+                children: [{style: {left: '5px', top: selSize*0.5+'px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]}
         ]
     });
 
