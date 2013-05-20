@@ -15,9 +15,10 @@
             , bRad = ns.Layout.style.regionBorderRadius
             , grabColor = ns.Layout.style.colors.grabber.toStyle()
             , splitterColor = ns.Layout.style.colors.splitter.toStyle()
+            , boxShad = '10px 10px 5px #888'
             ;
         ns.Dom.call(this,{
-            class: 'floating-region', style: { border: '1px solid '+ grabColor, borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: 0, topLeftBorderRadius: bRad, WebkitTopLeftBorderRadius: bRad, MozTopLeftBorderRadius: bRad, top: '25%', left: '125%', width: '50%', height: '50%',background: splitterColor},
+            class: 'floating-region', style: { boxShadow: boxShad, WebkitBoxShadow: boxShad, MozBoxShadow: boxShad, border: '1px solid '+ grabColor, borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: 0, topLeftBorderRadius: bRad, WebkitTopLeftBorderRadius: bRad, MozTopLeftBorderRadius: bRad, top: '25%', left: '125%', width: '50%', height: '50%',background: splitterColor},
             children: [
                 {prop: 'topLeftResizer', class: 'top-left-resizer', style: {top: 0, left: 0, width: sWidth, height: sWidth, cursor: 'nw-resize', background: splitterColor}},
                 {prop: 'topResizer', class: 'top-resizer', style: {top: 0, left: sWidth, right: sWidth, height: sWidth, cursor: 'n-resize', background: splitterColor}},
