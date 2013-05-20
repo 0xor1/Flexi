@@ -14,16 +14,17 @@
         var bRad = ns.Layout.style.regionBorderRadius
             , grabW = ns.Layout.style.grabberW
             , grabH = ns.Layout.style.grabberH
-            , grabColor = ns.Layout.style.colors.grabber.toStyle();
+            , grabColor = ns.Layout.style.colors.grabber.toStyle()
+            , splitterColor = ns.Layout.style.colors.splitter.toStyle()
             ;
 
         ns.Dom.call(this, {
-            class: 'content-region', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, width:'calc(100% - 2px)', height:'calc(100% - 2px)', border: '1px solid #ff5721', background: '#fff'},
+            class: 'content-region', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, width:'calc(100% - 2px)', height:'calc(100% - 2px)', border: '1px solid '+grabColor, background: splitterColor},
             children: [
-                { prop: 'grabber', class: 'grabber', style: { borderBottomRightRadius: bRad, WebkitBorderBottomRightRadius: bRad, MozBorderBottomRightRadius: bRad, width: grabW, height: grabH, background: grabColor}},
-                { prop: 'grabberCurlOutFill', class: 'grabber-curl-out-fill', style: { left: grabW, width: bRad, height: bRad, background: grabColor}},
-                { class: 'grabber-curl-out-cut', style: { left: grabW, width: bRad, height: bRad, background: '#fff', borderTopLeftRadius: bRad, WebkitBorderTopLeftRadius: bRad, MozBorderTopLeftRadius: bRad}},
-                { prop: 'contentSlot', class: 'content-slot', style: {top: grabH, bottom: 0, width: '100%', background: '#fff'}}
+                { prop: 'contentSlot', class: 'content-slot', style: { height: '100%', width: '100%', background: splitterColor}},
+                { prop: 'grabber', class: 'grabber', style: { right: 0, borderBottomLeftRadius: bRad, WebkitBorderBottomLeftRadius: bRad, MozBorderBottomLeftRadius: bRad, width: grabW, height: grabH, background: grabColor}},
+                { prop: 'grabberCurlOutFill', class: 'grabber-curl-out-fill', style: { right: grabW, width: bRad, height: bRad, background: grabColor}},
+                { class: 'grabber-curl-out-cut', style: { right: grabW, width: bRad, height: bRad, background: splitterColor, borderTopRightRadius: bRad, WebkitBorderTopRightRadius: bRad, MozBorderTopRightRadius: bRad}}
             ]
         });
 
@@ -31,7 +32,7 @@
         this.child = new ns.ControlWrapper(domControl);
         this.dom.contentSlot.appendChild(this.child.domRoot());
         this.grabberClickListener = function(){
-            this.parent.unpair().float(); //add mouse move listener to the floatingRegion when the floating region is created
+            this.parent.float(); //add mouse move listener to the floatingRegion when the floating region is created
         }.bind(this);
         this.dom.grabber.addEventListener('mousedown', this.grabberClickListener, false);
     };

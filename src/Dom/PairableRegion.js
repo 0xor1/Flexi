@@ -91,7 +91,7 @@
     ns.PairableRegion.prototype.float = function(){
         if(this.parent instanceof ns.FloatingRegion){return;}
         this.unpair();
-        ns.Layout.current.addFloatingRegion(new ns.FloatingRegion(this));
+        new ns.FloatingRegion(this);
     };
 
 
