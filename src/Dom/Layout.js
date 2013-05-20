@@ -79,7 +79,7 @@
             grabber: new RGBA(70,150,255),
             overlay: new RGBA(0,0,0,0.5)
         },
-        splitterWidth: 6,
+        splitterWidth: 4,
         grabberW: '22px',
         grabberH: '22px',
         regionBorderRadius: '5px',

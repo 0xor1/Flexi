@@ -32,7 +32,10 @@
         this.child = new ns.ControlWrapper(domControl);
         this.dom.contentSlot.appendChild(this.child.domRoot());
         this.grabberClickListener = function(){
-            this.parent.float(); //add mouse move listener to the floatingRegion when the floating region is created
+            if(!(this.parent.parent instanceof ns.FloatingRegion)){
+                this.parent.float();
+            }
+            //TODO add mousemove listener here
         }.bind(this);
         this.dom.grabber.addEventListener('mousedown', this.grabberClickListener, false);
     };
