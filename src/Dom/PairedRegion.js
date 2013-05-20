@@ -21,10 +21,11 @@
         if(orientation !== v && orientation !== h){throw new Error("An orientation must be specified");}
 
         var sWidth = ns.Layout.style.splitterWidth / 2
+            , splitterColor = ns.Layout.style.colors.splitter.toStyle()
             , domInfo = { style: { height: '100%', width: '100%'},
                 children: [
                     { prop: 'firstSlot', class: 'first-slot', style: { position: 'relative'} },
-                    { prop: 'splitter', class: 'splitter', style: { position: 'relative'} },
+                    { prop: 'splitter', class: 'splitter', style: { position: 'relative', backgound: splitterColor} },
                     { prop: 'secondSlot', class: 'second-slot', style: { position: 'relative'} }
                 ]
             }
@@ -69,14 +70,15 @@
         this.dom.secondSlot.appendChild(secondChild.domRoot());
 
         if(!ns.PairedRegion.verticalResizeOverlay){
-            var bRad = ns.Layout.style.regionBorderRadius;
+            var bRad = ns.Layout.style.regionBorderRadius
+                , overlayColor = ns.Layout.style.colors.overlay.toStyle();
             ns.PairedRegion.verticalResizeOverlay = ns.Dom.domGenerator({
-                id: 'vertical-resize-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'n-resize'},
-                children: [{ prop: 'splitter', id: 'vertical-resize-overlay-splitter', style: { height: (sWidth * 2)+'px', width: '100%', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'n-resize'}}]
+                id: 'vertical-resize-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: overlayColor, cursor: 'n-resize'},
+                children: [{ prop: 'splitter', id: 'vertical-resize-overlay-splitter', style: { height: (sWidth * 2)+'px', width: '100%', background: splitterColor, cursor: 'n-resize'}}]
             });
             ns.PairedRegion.horizontalResizeOverlay = ns.Dom.domGenerator({
-                id: 'horizontal-resize-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 0, left: 0, width: '100%', height: '100%', background: ns.Layout.style.colors.pairedRegionResizeOverlay.toStyle(), cursor: 'e-resize'},
-                children: [{ prop: 'splitter', id: 'horizontal-resize-overlay-splitter', style: { width: (sWidth * 2)+'px', height: '100%', background: ns.Layout.style.colors.splitter.toStyle(), cursor: 'e-resize'}}]
+                id: 'horizontal-resize-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 0, left: 0, width: '100%', height: '100%', background: overlayColor, cursor: 'e-resize'},
+                children: [{ prop: 'splitter', id: 'horizontal-resize-overlay-splitter', style: { width: (sWidth * 2)+'px', height: '100%', background: splitterColor, cursor: 'e-resize'}}]
             });
             ns.PairedRegion.resizeInProgress = false;
         }

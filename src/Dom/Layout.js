@@ -10,7 +10,7 @@
         ;
 
 
-    ns.Layout = function(layoutConfig){
+    ns.Layout = function(){
 
         if(ns.Layout.current){
             return ns.Layout.current;
@@ -42,13 +42,6 @@
         //actual members
         this.rootRegion = new ns.RootRegion();
         this.dom.root.insertBefore(this.rootRegion.domRoot(), this.dom.floatAnchor);
-        this.selectedRegion = null;
-        this.selectedRegions = [];
-        this.floatingRegions = [];
-        this.windowedRegions = [];
-        this.dialogBoxes = [];
-        this.contextMenu = null;
-        this.reconfigurationInProgress = false;
 
 
         ns.Layout.current = this;
@@ -61,14 +54,11 @@
         this.l = l;
         this.a = a || 1;
     }
-
-
     HSLA.prototype = {
         toStyle: function(){
             return "hsla("+this.h+", "+this.s+"%, "+this.l+ "%, "+this.a+")";
         }
     };
-
 
     function RGBA(r, g, b, a){
         this.r = r;
@@ -76,8 +66,6 @@
         this.b = b;
         this.a = a || 1;
     }
-
-
     RGBA.prototype = {
         toStyle: function(){
             return "rgba("+this.r+", "+this.g+", "+this.b+ ", "+this.a+")";
@@ -87,17 +75,13 @@
 
     ns.Layout.style = {
         colors: {
-            splitter: new RGBA(15,45,80),
-            header: new RGBA(15,65,120),
-            tabBar: new RGBA(15,45,80),
-            tab: new RGBA(250,250,250, 0.8),
-            selectedTab: new RGBA(250, 250, 250),
-            pairedRegionResizeOverlay: new RGBA(200,200,200,0.4)
+            splitter: new RGBA(255,255,255),
+            grabber: new RGBA(255,87,33),
+            overlay: new RGBA(0,0,0,0.5)
         },
         splitterWidth: 6,
-        tabHeight: '20px',
-        tabWidth: '80px',
-        headerHeight: '20px',
+        grabberW: '22px',
+        grabberH: '22px',
         regionBorderRadius: '5px',
         selectorSize: 40
     };
@@ -121,15 +105,6 @@
     ns.Layout.prototype.embedRegion = function(region){
         if(this.rootRegion.child){throw new Error("Cant embed a region as the root Region already contains a child")}
         this.rootRegion.addChild(region);
-    };
-
-
-    ns.Layout.prototype.floatRegion = function(region){
-        this.floatingRegions.push(new ns.FloatingRegion(region));
-    };
-
-    ns.Layout.prototype.groupRegions = function(first, second, orientation){
-        return new ns.GroupedRegion(first, second, orientation);
     };
 
 

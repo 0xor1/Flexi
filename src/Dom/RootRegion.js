@@ -28,7 +28,7 @@
 
 
     ns.RootRegion.prototype.addChild = function(child){
-        if(this.child){return this;}
+        if(this.child){throw new Error('rootRegion already has a child')}
         if(child instanceof ns.PairableRegion){
             child.removeSelf();
             this.child = child;

@@ -14,7 +14,7 @@
 
         this.control = new ns.ControlWrapper(domControl, name, icon);
         ns.PairableRegion.call(this,
-            new ns.TabbableRegion(
+            new ns.ContentRegion(
                 this.control
             )
         );

@@ -82,7 +82,7 @@
         if(this.dom.root.parentNode){ //just in case something went wrong
             this.dom.root.parentNode.removeChild(this.dom.root);
         }
-        ns.Eventable.prototype.dispose.call(this);
+        CORE.Eventable.prototype.dispose.call(this);
     };
 
     ns.Dom.prototype.domRoot = function(){
