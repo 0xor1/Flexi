@@ -75,9 +75,9 @@
 
     ns.Layout.style = {
         colors: {
-            splitter: new RGBA(0,0,0),
-            grabber: new RGBA(255,87,33),
-            overlay: new RGBA(255,255,255,0.5)
+            splitter: new RGBA(255,255,255),
+            grabber: new RGBA(70,150,255),
+            overlay: new RGBA(0,0,0,0.5)
         },
         splitterWidth: 6,
         grabberW: '22px',

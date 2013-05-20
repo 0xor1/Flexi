@@ -27,7 +27,7 @@
                 {prop: 'bottomResizer', class: 'bottom-resizer', style: {bottom: 0, right: sWidth, left: sWidth, height: sWidth, cursor: 'n-resize', background: splitterColor}},
                 {prop: 'bottomLeftResizer', class: 'bottom-left-resizer', style: {bottom: 0, left: 0, width: sWidth, height: sWidth, cursor: 'ne-resize', background: splitterColor}},
                 {prop: 'leftResizer', class: 'left-resizer', style: {top: sWidth, left: 0, width: sWidth, bottom: sWidth, cursor: 'e-resize', background: splitterColor}},
-                {prop: 'pairableSlot', class: 'pairable-slot', style: {left: sWidth, top: sWidth, right: sWidth, bottom: sWidth}},
+                {prop: 'pairableSlot', class: 'pairable-slot', style: {left: sWidth, top: sWidth, right: sWidth, bottom: sWidth}}
             ]
         });
 
