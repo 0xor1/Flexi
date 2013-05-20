@@ -10,8 +10,11 @@
 
     // place holder just for dev testing
     ns.DummyControl = function(){
+        var splitterColor = ns.Layout.style.colors.splitter.toStyle()
+            ;
+
         ns.Dom.call(this,{
-            class: 'dummy-control', style: { background: '#fff', height: '100%', width: '100%'},
+            class: 'dummy-control', style: { color: '#fff', background: splitterColor, height: '100%', width: '100%'},
             children: [
                 { prop: 'content', tag: 'span', class: 'some-user-provided-content'}
             ]
