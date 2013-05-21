@@ -31,11 +31,29 @@
         this.parent = null;
         this.child = new ns.ControlWrapper(domControl);
         this.dom.contentSlot.appendChild(this.child.domRoot());
+        this.mouseMoveListener = function(event){
+            var dom = this.parent.parent.domRoot()
+                , rect = dom.getBoundingClientRect()
+                , left = ((event.clientX - rect.left - 3)*100/window.innerWidth)+100
+                , left = (left > 95) ? 95 : (left < 5) ? 5 : left
+                , top = (event.clientY - rect.top - 3)*100/window.innerHeight
+                , top = (top > 95) ? 95 : (top < 5) ? 5 : top
+                ;
+            dom.style.left = left + '%';
+            dom.style.top = top + '%';
+        }.bind(this);
+        this.releaseGrabListener = function(){
+            window.removeEventListener('mousemove', this.mouseMoveListener);
+            window.removeEventListener('mousedown', this.releaseGrabListener);
+            ns.PairableRegion.grabbedRegion = null;
+        }.bind(this);
         this.grabberClickListener = function(){
             if(!(this.parent.parent instanceof ns.FloatingRegion)){
                 this.parent.float();
             }
-            //TODO add mousemove listener here
+            window.addEventListener('mousemove', this.mouseMoveListener, 'false');
+            window.addEventListener('mousedown', this.releaseGrabListener, false);
+            ns.PairableRegion.grabbedRegion = this.parent;
         }.bind(this);
         this.dom.grabber.addEventListener('mousedown', this.grabberClickListener, false);
     };

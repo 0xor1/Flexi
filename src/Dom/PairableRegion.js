@@ -17,6 +17,10 @@
 
         ns.Dom.call(this, { class: 'pairable-region', style: { height: '100%', width: '100%'} });
 
+        this.showOverlayListener = function(event){
+
+        }.bind(this);
+
         this.parent = null;
         this.child = child;
         this.child.parent = this;
@@ -107,18 +111,7 @@
 
     ns.PairableRegion.prototype.showOverlay = function(){
         this.domRoot().appendChild(ns.PairableRegion.pairOverlay.root);
-        if(!(this.child instanceof ns.TabbableRegion) || (ns.Layout.current.grabbedFloatingRegion instanceof ns.floatingCustomRegion)){
-            removeTabSelector();
-        }
     };
-
-    function removeTabSelector(){
-        ns.PairableRegion.pairOverlay.domRoot().removeChild(ns.PairableRegion.pairOverlay.tabSelector);
-    }
-
-    function replaceTabSelector(){
-        ns.PairableRegion.pairOverlay.domRoot().insertBefore(ns.PairableRegion.pairOverlay.tabSelector, ns.PairableRegion.pairOverlay.leftSelector);
-    }
 
     var selSize = ns.Layout.style.selectorSize
         , bRad = ns.Layout.style.regionBorderRadius
@@ -133,13 +126,17 @@
                 children: [{style: {left: '5px', top: '5px', right: '5px', bottom: selSize*0.5+'px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'leftSelector', id: 'left-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% - '+selSize*2+'px)', width: selSize+'px', height: selSize+'px', background: grabColor},
                 children: [{style: {left: '5px', top: '5px', right: selSize*0.5+'px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
-            { prop: 'tabSelector', id: 'tab-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% - '+selSize*0.5+'px)', width: selSize+'px', height: selSize+'px', background: grabColor },
-                children: [{style: {left: '5px', top: '5px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'rightSelector', id: 'right-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 0.5*selSize + 'px)', left: 'calc(50% + '+selSize+'px)', width: selSize+'px', height: selSize+'px', background: grabColor },
                 children: [{style: {left: selSize*0.5+'px', top: '5px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
             { prop: 'bottomSelector', id: 'bottom-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% + ' +selSize + 'px)', left: 'calc(50% - '+0.5*selSize+'px)', width: selSize+'px', height: selSize+'px', background: grabColor },
                 children: [{style: {left: '5px', top: selSize*0.5+'px', right: '5px', bottom: '5px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]}
         ]
     });
+
+    ns.PairableRegion.pairOverlay.root.addEventListener('mousedown', function(event){
+
+    },false);
+
+    ns.PairableRegion.grabbedRegion = null;
 
 })(NS);
