@@ -28,6 +28,7 @@
         this.mouseOverListener = function(event){
             event.stopPropagation();
             if(ns.PairableRegion.grabbedRegion){
+                ns.PairableRegion.overedRegion = this;
                 this.showOverlay();
             }
         }.bind(this);
@@ -126,7 +127,7 @@
         ;
 
     ns.PairableRegion.pairOverlay = ns.Dom.domGenerator({
-        id: 'pair-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: overlayColor },
+        id: 'pair-overlay', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top:0, left: 0, width: '100%', height: '100%', background: overlayColor},
         children: [
             { prop: 'topSelector', id: 'top-selector', style: { borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, top: 'calc( 50% - ' + 2*selSize + 'px)', left: 'calc(50% - '+selSize*0.5+'px)', width: selSize+'px', height: selSize+'px', background: grabColor},
                 children: [{style: {left: '5px', top: '5px', right: '5px', bottom: selSize*0.5+'px', borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: bRad, background: '#fff'}}]},
@@ -141,7 +142,32 @@
 
     ns.PairableRegion.pairOverlay.root.addEventListener('mousedown', function(event){
         ns.PairableRegion.pairOverlay.root.parentNode.removeChild(ns.PairableRegion.pairOverlay.root);
+        ns.PairableRegion.overedRegion = null;
     },false);
+
+    ns.PairableRegion.pairOverlay.topSelector.addEventListener('mousedown', function(event){
+        ns.Layout.current.dom.floatAnchor.removeChild(ns.PairableRegion.grabbedRegion.parent.domRoot());
+        ns.PairableRegion.grabbedRegion.parent.removeChild(ns.PairableRegion.grabbedRegion);
+        ns.PairableRegion.overedRegion.pair(ns.PairableRegion.grabbedRegion,0,'vertical');
+    }, false);
+
+    ns.PairableRegion.pairOverlay.leftSelector.addEventListener('mousedown', function(event){
+        ns.Layout.current.dom.floatAnchor.removeChild(ns.PairableRegion.grabbedRegion.parent.domRoot());
+        ns.PairableRegion.grabbedRegion.parent.removeChild(ns.PairableRegion.grabbedRegion);
+        ns.PairableRegion.overedRegion.pair(ns.PairableRegion.grabbedRegion,0,'horizontal');
+    }, false);
+
+    ns.PairableRegion.pairOverlay.rightSelector.addEventListener('mousedown', function(event){
+        ns.Layout.current.dom.floatAnchor.removeChild(ns.PairableRegion.grabbedRegion.parent.domRoot());
+        ns.PairableRegion.grabbedRegion.parent.removeChild(ns.PairableRegion.grabbedRegion);
+        ns.PairableRegion.overedRegion.pair(ns.PairableRegion.grabbedRegion,1,'horizontal');
+    }, false);
+
+    ns.PairableRegion.pairOverlay.bottomSelector.addEventListener('mousedown', function(event){
+        ns.Layout.current.dom.floatAnchor.removeChild(ns.PairableRegion.grabbedRegion.parent.domRoot());
+        ns.PairableRegion.grabbedRegion.parent.removeChild(ns.PairableRegion.grabbedRegion);
+        ns.PairableRegion.overedRegion.pair(ns.PairableRegion.grabbedRegion,1,'vertical');
+    }, false);
 
     ns.PairableRegion.grabbedRegion = null;
 

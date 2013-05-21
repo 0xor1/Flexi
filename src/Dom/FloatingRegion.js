@@ -47,8 +47,12 @@
     ns.FloatingRegion.prototype = Object.create(ns.Dom.prototype);
 
 
-    ns.FloatingRegion.prototype.relocate = function(event){
-
+    ns.FloatingRegion.prototype.removeChild = function(child){
+        if(this.child === child){
+            this.child = null;
+            this.dom.pairableSlot.removeChild(child.domRoot());
+            child.parent = null;
+        }
     };
 
 })(NS);
