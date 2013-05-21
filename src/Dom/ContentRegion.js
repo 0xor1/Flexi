@@ -34,10 +34,10 @@
         this.mouseMoveListener = function(event){
             var dom = this.parent.parent.domRoot()
                 , rect = dom.getBoundingClientRect()
-                , left = ((event.clientX - rect.left - 3)*100/window.innerWidth)+100
-                , left = (left > 95) ? 95 : (left < 5) ? 5 : left
-                , top = (event.clientY - rect.top - 3)*100/window.innerHeight
-                , top = (top > 95) ? 95 : (top < 5) ? 5 : top
+                , left = ((event.clientX - rect.width - 3)*100/window.innerWidth)+100
+                , left = (left > 198) ? 198 : (left + rect.width < 98) ? 98 : left
+                , top = (event.clientY - 3)*100/window.innerHeight
+                , top = (top > 98) ? 98 : (top < 2) ? 2 : top
                 ;
             dom.style.left = left + '%';
             dom.style.top = top + '%';
