@@ -58,6 +58,7 @@
 
         this.dom.splitter.addEventListener('mousedown', showResizeOverlay.bind(this), false);
         this.hideResizeListener = hideResizeOverlay.bind(this)
+        this.dom.splitter.addEventListener('mouseover', function(event){event.stopPropagation();},false);
 
         this.orientation = orientation;
         this.parent = null;

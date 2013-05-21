@@ -15,7 +15,7 @@
             , bRad = ns.Layout.style.regionBorderRadius
             , grabColor = ns.Layout.style.colors.grabber.toStyle()
             , splitterColor = ns.Layout.style.colors.splitter.toStyle()
-            , boxShad = '15px 15px 8px #888'
+            , boxShad = '10px 10px 5px #888'
             ;
         ns.Dom.call(this,{
             class: 'floating-region', style: { boxShadow: boxShad, WebkitBoxShadow: boxShad, MozBoxShadow: boxShad, border: '1px solid '+ grabColor, borderRadius: bRad, WebkitBorderRadius: bRad, MozBorderRadius: 0, topLeftBorderRadius: bRad, WebkitTopLeftBorderRadius: bRad, MozTopLeftBorderRadius: bRad, top: '25%', left: '125%', width: '50%', height: '50%',background: splitterColor},
@@ -36,6 +36,11 @@
         this.child = pairableRegion;
         this.dom.pairableSlot.appendChild(pairableRegion.domRoot());
         ns.Layout.current.dom.floatAnchor.appendChild(this.domRoot());
+
+        this.focusListener = function(event){
+            ns.Layout.current.dom.floatAnchor.appendChild(this.domRoot());
+        }.bind(this);
+        this.domRoot().addEventListener('mousedown', this.focusListener, false);
     };
 
 

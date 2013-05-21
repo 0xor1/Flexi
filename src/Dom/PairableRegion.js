@@ -25,7 +25,13 @@
         this.child = child;
         this.child.parent = this;
         this.domRoot().appendChild(this.child.domRoot());
-
+        this.mouseOverListener = function(event){
+            event.stopPropagation();
+            if(ns.PairableRegion.grabbedRegion){
+                this.showOverlay();
+            }
+        }.bind(this);
+        this.domRoot().addEventListener('mouseover', this.mouseOverListener, false);
     };
 
 
@@ -134,7 +140,7 @@
     });
 
     ns.PairableRegion.pairOverlay.root.addEventListener('mousedown', function(event){
-
+        ns.PairableRegion.pairOverlay.root.parentNode.removeChild(ns.PairableRegion.pairOverlay.root);
     },false);
 
     ns.PairableRegion.grabbedRegion = null;

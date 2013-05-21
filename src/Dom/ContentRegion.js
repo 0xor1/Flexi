@@ -34,10 +34,10 @@
         this.mouseMoveListener = function(event){
             var dom = this.parent.parent.domRoot()
                 , rect = dom.getBoundingClientRect()
-                , left = ((event.clientX - rect.width - 3)*100/window.innerWidth)+100
-                , left = (left > 198) ? 198 : (left + rect.width < 98) ? 98 : left
-                , top = (event.clientY - 3)*100/window.innerHeight
-                , top = (top > 98) ? 98 : (top < 2) ? 2 : top
+                , left = ((event.clientX - rect.width - 10)*100/window.innerWidth)+100
+                , left = (left < 103 - (rect.width*100/window.innerWidth)) ? 103 - (rect.width*100/window.innerWidth) : left
+                , top = (event.clientY + 10)*100/window.innerHeight
+                , top = (top > 97) ? 97 : top
                 ;
             dom.style.left = left + '%';
             dom.style.top = top + '%';
@@ -48,11 +48,14 @@
             ns.PairableRegion.grabbedRegion = null;
         }.bind(this);
         this.grabberClickListener = function(){
+            var self = this;
             if(!(this.parent.parent instanceof ns.FloatingRegion)){
                 this.parent.float();
             }
-            window.addEventListener('mousemove', this.mouseMoveListener, 'false');
-            window.addEventListener('mousedown', this.releaseGrabListener, false);
+            window.addEventListener('mousemove', this.mouseMoveListener, false);
+            setTimeout(function(){
+                window.addEventListener('mousedown', self.releaseGrabListener, false);
+            },0);
             ns.PairableRegion.grabbedRegion = this.parent;
         }.bind(this);
         this.dom.grabber.addEventListener('mousedown', this.grabberClickListener, false);
